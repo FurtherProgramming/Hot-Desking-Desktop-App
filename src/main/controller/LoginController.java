@@ -1,12 +1,20 @@
 package main.controller;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import main.Admin.AdminController;
+import main.Employee.EmployeeController;
+import main.option;
 import main.model.LoginModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -16,9 +24,15 @@ public class LoginController implements Initializable {
     @FXML
     private Label isConnected;
     @FXML
+    private Label loginStatus;
+    @FXML
     private TextField txtUsername;
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
+    @FXML
+    private Button loginButton;
+    @FXML
+    private ComboBox<option> combobox;
 
 
     // Check database connection
@@ -29,19 +43,30 @@ public class LoginController implements Initializable {
         }else{
             isConnected.setText("Not Connected");
         }
+        this.combobox.setItems(FXCollections.observableArrayList(option.values()));
 
     }
     /* login Action method
        check if user input is the same as database.
      */
+    @FXML
     public void Login(ActionEvent event){
 
         try {
-            if (loginModel.isLogin(txtUsername.getText(),txtPassword.getText())){
+            if (loginModel.isLogin(this.txtUsername.getText(), this.txtPassword.getText(), ((option)this.combobox.getValue()).toString())){
+                Stage stage = (Stage)this.loginButton.getScene().getWindow();
+                stage.close();
+                switch (((option)this.combobox.getValue()).toString()){
+                    case "Admin":
+                        adminLogin();
+                        break;
+                    case "Employee":
+                        employeeLogin();
+                        break;
+                }
 
-                isConnected.setText("Logged in successfully");
             }else{
-                isConnected.setText("username and password is incorrect");
+                this.loginStatus.setText("Wrong Credentials");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +76,37 @@ public class LoginController implements Initializable {
 
 
 
-    //11.2.3 big sur
+    public void employeeLogin(){
+        try {
+            Stage userStage = new Stage();
+            FXMLLoader loader  = new FXMLLoader();
+            Pane root = (Pane)loader.load(getClass().getResource("Employee/Employee.fxml").openStream());
+            EmployeeController employeeController = (EmployeeController)loader.getController();
+            Scene scene = new Scene(root);
+            userStage.setScene(scene);
+            userStage.setTitle("Employee Dashboard");
+            userStage.setResizable(false);
+            userStage.show();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void adminLogin(){
+        try {
+            Stage adminStage = new Stage();
+            FXMLLoader adminloader  = new FXMLLoader();
+            Pane adminroot = (Pane)adminloader.load(getClass().getResource("Admin/Admin.fxml").openStream());
+            AdminController adminController = (AdminController) adminloader.getController();
+            Scene scene = new Scene(adminroot);
+            adminStage.setScene(scene);
+            adminStage.setTitle("Admin Dashboard");
+            adminStage.setResizable(false);
+            adminStage.show();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
 
 
