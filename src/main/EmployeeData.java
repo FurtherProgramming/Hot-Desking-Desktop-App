@@ -1,4 +1,4 @@
-package main.Admin;
+package main;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

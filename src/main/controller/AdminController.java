@@ -1,4 +1,4 @@
-package main.Admin;
+package main.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.SQLConnection;
+import main.EmployeeData;
 
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package main.Employee;
+package main.controller;
 
 public class EmployeeController {
 }

@@ -9,8 +9,7 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
-import main.Admin.AdminController;
-import main.Employee.EmployeeController;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -96,7 +95,7 @@ public class LoginController implements Initializable {
         try {
             Stage adminStage = new Stage();
             FXMLLoader adminloader  = new FXMLLoader();
-            Pane adminroot = (Pane)adminloader.load(getClass().getResource("DummyAdmin.fxml").openStream());
+            Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
 //            AdminController adminController = (AdminController)adminloader.getController();
             Scene scene = new Scene(adminroot);
             adminStage.setScene(scene);
