@@ -27,7 +27,6 @@
          </font></Button>
       <Label layoutX="26.0" layoutY="58.0" text="Username" />
       <Label layoutX="28.0" layoutY="114.0" text="Password" />
-      <ComboBox fx:id="combobox" layoutX="125.0" layoutY="184.0" prefHeight="47.0" prefWidth="252.0" promptText="Admin / Employee" />
       <Label fx:id="loginStatus" layoutX="163.0" layoutY="241.0" prefHeight="17.0" prefWidth="178.0" textFill="#ee0404">
          <font>
             <Font name="System Bold" size="20.0" />

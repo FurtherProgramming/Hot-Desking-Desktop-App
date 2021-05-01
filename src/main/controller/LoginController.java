@@ -13,13 +13,14 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import main.option;
-import main.model.LoginModel;
+import main.model.LoginAppModel;
 
 
 public class LoginController implements Initializable {
 
-    public LoginModel loginModel = new LoginModel();
+    public LoginAppModel loginModel = new LoginAppModel();
 
     @FXML
     private Label isConnected;
@@ -37,35 +38,33 @@ public class LoginController implements Initializable {
 
     // Check database connection
     @Override
-    public void initialize(URL location, ResourceBundle resources){
-        if (loginModel.isDbConnected()){
+    public void initialize(URL location, ResourceBundle resources) {
+        if (loginModel.isDbConnected()) {
             isConnected.setText("Connected");
-        }else{
+        } else {
             isConnected.setText("Not Connected");
         }
-        this.combobox.setItems(FXCollections.observableArrayList(option.values()));
+
 
     }
+
     /* login Action method
        check if user input is the same as database.
      */
     @FXML
-    public void Login(ActionEvent event){
+    public void Login(ActionEvent event) {
 
         try {
-            if (loginModel.isLogin(this.txtUsername.getText(), this.txtPassword.getText(), ((option)this.combobox.getValue()).toString())){
-                Stage stage = (Stage)this.loginButton.getScene().getWindow();
+            if (loginModel.isAdminLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
+                Stage stage = (Stage) this.loginButton.getScene().getWindow();
                 stage.close();
-                switch (((option)this.combobox.getValue()).toString()){
-                    case "admin":
-                        adminLogin();
-                        break;
-                    case "employee":
-                        employeeLogin();
-                        break;
-                }
-
-            }else{
+                adminLogin();
+            }
+            if (loginModel.isEmployeeLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
+                Stage stage = (Stage) this.loginButton.getScene().getWindow();
+                stage.close();
+                employeeLogin();
+            } else {
                 this.loginStatus.setText("Wrong Credentials");
             }
         } catch (Exception e) {
@@ -74,41 +73,38 @@ public class LoginController implements Initializable {
     }
 
 
-
-
-    public void employeeLogin(){
+    public void employeeLogin() {
         try {
             Stage userStage = new Stage();
-            FXMLLoader loader  = new FXMLLoader();
-//            Pane root = (Pane)loader.load(getClass().getResource("ui/DummyEmployee.fxml").openStream());
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane) loader.load(getClass().getResource("DummyEmployee.fxml").openStream());
 //            EmployeeController employeeController = (EmployeeController)loader.getController();
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("Employee Dashboard");
             userStage.setResizable(false);
             userStage.show();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void adminLogin(){
+    public void adminLogin() {
         try {
             Stage adminStage = new Stage();
-            FXMLLoader adminloader  = new FXMLLoader();
-//            Pane adminroot = (Pane)adminloader.load(getClass().getResource("abc.fxml").openStream());
-            Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
+            FXMLLoader adminloader = new FXMLLoader();
+            Pane adminroot = (Pane) adminloader.load(getClass().getResource("abc.fxml").openStream());
+//            Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
 //            AdminController adminController = (AdminController)adminloader.getController();
             Scene scene = new Scene(adminroot);
             adminStage.setScene(scene);
             adminStage.setTitle("Admin Dashboard");
             adminStage.setResizable(false);
             adminStage.show();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 
 
 }
