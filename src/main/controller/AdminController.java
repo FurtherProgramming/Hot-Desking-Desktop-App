@@ -9,12 +9,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.SQLConnection;
 import main.EmployeeData;
+import main.SQLConnection;
+import javafx.event.ActionEvent;
 
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

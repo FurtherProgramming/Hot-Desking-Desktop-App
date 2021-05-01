@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import main.option;
 import main.model.LoginModel;
 
+
 public class LoginController implements Initializable {
 
     public LoginModel loginModel = new LoginModel();
@@ -79,14 +80,14 @@ public class LoginController implements Initializable {
         try {
             Stage userStage = new Stage();
             FXMLLoader loader  = new FXMLLoader();
-            Pane root = (Pane)loader.load(getClass().getResource("DummyEmployee.fxml").openStream());
+//            Pane root = (Pane)loader.load(getClass().getResource("ui/DummyEmployee.fxml").openStream());
 //            EmployeeController employeeController = (EmployeeController)loader.getController();
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("Employee Dashboard");
             userStage.setResizable(false);
             userStage.show();
-        } catch (IOException ex){
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }
@@ -95,6 +96,7 @@ public class LoginController implements Initializable {
         try {
             Stage adminStage = new Stage();
             FXMLLoader adminloader  = new FXMLLoader();
+//            Pane adminroot = (Pane)adminloader.load(getClass().getResource("abc.fxml").openStream());
             Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
 //            AdminController adminController = (AdminController)adminloader.getController();
             Scene scene = new Scene(adminroot);
@@ -102,7 +104,7 @@ public class LoginController implements Initializable {
             adminStage.setTitle("Admin Dashboard");
             adminStage.setResizable(false);
             adminStage.show();
-        } catch (IOException ex){
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }

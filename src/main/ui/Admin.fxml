@@ -76,17 +76,17 @@
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </TextField>
-                              <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="202.0" text="Add Employee">
+                              <Button mnemonicParsing="false" onAction="#addEmployee" prefHeight="27.0" prefWidth="202.0" text="Add Employee">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="202.0" text="Clear Form">
+                              <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="27.0" prefWidth="202.0" text="Clear Form">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="202.0" text="Load Data">
+                              <Button mnemonicParsing="false" onAction="#loadEmployeeData" prefHeight="27.0" prefWidth="202.0" text="Load Data">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
