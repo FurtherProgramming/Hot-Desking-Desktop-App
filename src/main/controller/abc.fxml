@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.AdminController">
+
+    <children>
+        <TabPane prefHeight="724.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Employee">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <HBox layoutX="261.0" prefHeight="693.0" prefWidth="1018.0">
+                                    <children>
+                                        <TableView fx:id="employeeDataTableView" prefHeight="693.0" prefWidth="1022.0">
+                                            <columns>
+                                                <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                                                <TableColumn fx:id="firstnameColumn" prefWidth="99.0" text="Firstname" />
+                                                <TableColumn fx:id="lastnameColumn" prefWidth="99.0" text="Lastname" />
+                                                <TableColumn fx:id="usernameColumn" prefWidth="109.0" text="Username" />
+                                                <TableColumn fx:id="passwordColumn" prefWidth="81.0" text="Password" />
+                                                <TableColumn fx:id="secretQuestionColumn" prefWidth="167.0" text="Secret Question" />
+                                                <TableColumn fx:id="answerColumn" minWidth="0.0" prefWidth="250.0" text="Answer to Secret Question" />
+                                                <TableColumn fx:id="roleColumn" prefWidth="137.0" text="Role" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </HBox>
+                                <VBox prefHeight="692.0" prefWidth="262.0">
+                                    <children>
+                                        <Label prefHeight="27.0" prefWidth="262.0" text="Add Employee">
+                                            <padding>
+                                                <Insets left="50.0" />
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="id" promptText="ID">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="firstname" layoutX="10.0" layoutY="37.0" promptText="Firstname">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="lastname" layoutX="10.0" layoutY="64.0" promptText="Lastname">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="username" layoutX="10.0" layoutY="91.0" promptText="Username">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <PasswordField fx:id="password" promptText="Password">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </PasswordField>
+                                        <TextField fx:id="secretQuestion" promptText="Secret Question">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="answer" promptText="Answer to Secret Question">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <TextField fx:id="role" layoutX="40.0" layoutY="199.0" promptText="Role">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </TextField>
+                                        <Button mnemonicParsing="false" onAction="#addEmployee" prefHeight="27.0" prefWidth="202.0" text="Add Employee">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </Button>
+                                        <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="27.0" prefWidth="202.0" text="Clear Form">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </Button>
+                                        <Button mnemonicParsing="false" onAction="#loadEmployeeData" prefHeight="27.0" prefWidth="202.0" text="Load Data">
+                                            <VBox.margin>
+                                                <Insets left="15.0" right="15.0" />
+                                            </VBox.margin>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets left="15.0" right="15.0" />
+                                    </padding>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+
+</AnchorPane>
