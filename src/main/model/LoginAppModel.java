@@ -29,35 +29,6 @@ public class LoginAppModel {
         }
     }
 
-    public Boolean isLogin(String user, String pass, String option) throws Exception {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet=null;
-        String query = "select * from employee where username = ? and password = ? and role = ?";
-        try {
-
-            preparedStatement = this.connection.prepareStatement(query);
-            preparedStatement.setString(1, user);
-            preparedStatement.setString(2, pass);
-            preparedStatement.setString(3, option);
-
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        catch (Exception e)
-        {
-            return false;
-        }finally {
-            preparedStatement.close();
-            resultSet.close();
-        }
-
-    }
 
     public Boolean isAdminLogin(String user, String pass) throws Exception {
         PreparedStatement preparedStatement = null;

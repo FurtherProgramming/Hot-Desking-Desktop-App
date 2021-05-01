@@ -1,20 +1,19 @@
 package main.controller;
 
-import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import main.option;
+
 import main.model.LoginAppModel;
 
 
@@ -32,8 +31,6 @@ public class LoginController implements Initializable {
     private PasswordField txtPassword;
     @FXML
     private Button loginButton;
-    @FXML
-    private ComboBox<option> combobox;
 
 
     // Check database connection
@@ -44,8 +41,6 @@ public class LoginController implements Initializable {
         } else {
             isConnected.setText("Not Connected");
         }
-
-
     }
 
     /* login Action method
@@ -73,7 +68,7 @@ public class LoginController implements Initializable {
     }
 
 
-    public void employeeLogin() {
+    public void employeeLogin(){
         try {
             Stage userStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -89,13 +84,13 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void adminLogin() {
+    public void adminLogin(){
         try {
             Stage adminStage = new Stage();
             FXMLLoader adminloader = new FXMLLoader();
             Pane adminroot = (Pane) adminloader.load(getClass().getResource("abc.fxml").openStream());
 //            Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
-//            AdminController adminController = (AdminController)adminloader.getController();
+            AdminController adminController = (AdminController)adminloader.getController();
             Scene scene = new Scene(adminroot);
             adminStage.setScene(scene);
             adminStage.setTitle("Admin Dashboard");
