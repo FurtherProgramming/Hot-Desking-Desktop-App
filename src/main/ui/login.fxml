@@ -44,7 +44,7 @@
          </font>
       </Button>
       <Label layoutX="204.0" layoutY="335.0" text="Create an account" />
-      <Button layoutX="126.0" layoutY="141.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="117.0" text="Forgot Password?">
+      <Button fx:id="forgetPasswordButton" layoutX="126.0" layoutY="141.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="18.0" prefWidth="117.0" text="Forgot Password?">
          <effect>
             <Blend />
          </effect>

@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.AdminController">
    <children>
-      <TabPane prefHeight="724.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="720.0" prefWidth="1280.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Employee">
             <content>
@@ -91,6 +91,11 @@
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
                               </Button>
+                              <Label fx:id="employeeAddedStatus" prefHeight="62.0" prefWidth="202.0" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="15.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
                            <padding>
                               <Insets left="15.0" right="15.0" />

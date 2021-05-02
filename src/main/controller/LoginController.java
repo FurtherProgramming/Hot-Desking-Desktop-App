@@ -9,12 +9,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
+import main.User;
+import main.UserHolder;
 import main.model.LoginAppModel;
 
 
@@ -36,6 +41,8 @@ public class LoginController implements Initializable {
     @FXML
     private Button loginButton;
 
+    @FXML
+    private Button forgetPasswordButton;
 
     // Check database connection
     @Override
@@ -71,15 +78,18 @@ public class LoginController implements Initializable {
 
     public void employeeLogin(){
         try {
+            User user = new User(this.txtUsername.getText(), this.txtPassword.getText());
+            UserHolder holder = UserHolder.getInstance();
+            holder.setUser(user);
             Stage userStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Pane root = (Pane)loader.load(getClass().getResource("../ui/Employee.fxml").openStream());
-//            EmployeeController employeeController = (EmployeeController)loader.getController();
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("Employee Dashboard");
             userStage.setResizable(false);
             userStage.show();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -89,9 +99,7 @@ public class LoginController implements Initializable {
         try {
             Stage adminStage = new Stage();
             FXMLLoader adminloader = new FXMLLoader();
-//            Pane adminroot = (Pane) adminloader.load(getClass().getResource("abc.fxml").openStream());
             Pane adminroot = (Pane)adminloader.load(getClass().getResource("../ui/Admin.fxml").openStream());
-            AdminController adminController = (AdminController)adminloader.getController();
             Scene adminScene = new Scene(adminroot);
             adminStage.setScene(adminScene);
             adminStage.setTitle("Admin Dashboard");
@@ -120,6 +128,25 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void ForgetPassword(ActionEvent event){
+        try{
+            Stage stage = (Stage) this.forgetPasswordButton.getScene().getWindow();
+            stage.close();
+            Stage userStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane) loader.load(getClass().getResource("../ui/ResetPassword.fxml").openStream());
+            Scene scene = new Scene(root);
+            userStage.setScene(scene);
+            userStage.setTitle("SignUp Dashboard");
+            userStage.setResizable(false);
+            userStage.show();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
 

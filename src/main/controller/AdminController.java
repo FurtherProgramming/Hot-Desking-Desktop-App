@@ -4,23 +4,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.EmployeeData;
 import main.SQLConnection;
 import javafx.event.ActionEvent;
+import main.model.LoginAppModel;
 
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.sql.Connection;
 
 public class AdminController implements Initializable {
+
+    public LoginAppModel loginModel = new LoginAppModel();
 
     @FXML
     private TextField id;
@@ -38,6 +37,10 @@ public class AdminController implements Initializable {
     private TextField answer;
     @FXML
     private TextField role;
+    @FXML
+    private Label employeeAddedStatus;
+
+
 
     @FXML
     private TableView<EmployeeData> employeeDataTableView;
@@ -70,16 +73,13 @@ public class AdminController implements Initializable {
     @FXML
     private void loadEmployeeData(ActionEvent event) throws SQLException{
         try{
+            employeeAddedStatus.setText("");
             Connection conn = SQLConnection.connect();
             this.data = FXCollections.observableArrayList();
-
             ResultSet rs = conn.createStatement().executeQuery(sql);
-
             while(rs.next()){
                 this.data.add(new EmployeeData(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)));
-
             }
-
         } catch (SQLException e){
             System.err.println("Error" + e);
         }
@@ -98,31 +98,26 @@ public class AdminController implements Initializable {
     }
 
     @FXML
-    private void addEmployee(ActionEvent event){
-        String sqlInsert = "INSERT INTO Employee(id,firstname,lastname,username,password,secret_question,answer_to_secret_question,role) VALUES (?,?,?,?,?,?,?,?)";
-
-        try{
-            Connection c = SQLConnection.connect();
-            PreparedStatement st = c.prepareStatement(sqlInsert);
-
-            st.setString(1,this.id.getText());
-            st.setString(2,this.firstname.getText());
-            st.setString(3,this.lastname.getText());
-            st.setString(4,this.username.getText());
-            st.setString(5,this.password.getText());
-            st.setString(6,this.secretQuestion.getText());
-            st.setString(7,this.answer.getText());
-            st.setString(8,this.role.getText());
-
-            st.execute();
-            c.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    private void addEmployee(ActionEvent event) throws Exception{
+            String id = this.id.getText();
+            String fname = this.firstname.getText();
+            String lname = this.lastname.getText();
+            String uname = this.username.getText();
+            String pass = this.password.getText();
+            String sq = this.secretQuestion.getText();
+            String asq = this.answer.getText();
+            String role = this.role.getText();
+            if(loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role)){
+                employeeAddedStatus.setText("Employee has been added successfully! Refresh by clicking Load Data.");
+            }
+            else{
+                employeeAddedStatus.setText("Employee ID has been used, try with a new ID.");
+            }
     }
 
     @FXML
     private void clearForm(ActionEvent event){
+        employeeAddedStatus.setText("");
         this.id.setText("");
         this.firstname.setText("");
         this.lastname.setText("");
@@ -132,5 +127,7 @@ public class AdminController implements Initializable {
         this.answer.setText("");
         this.role.setText("");
     }
+
+
 
 }
