@@ -4,6 +4,7 @@ package main.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,6 +21,9 @@ import main.model.LoginAppModel;
 public class LoginController implements Initializable {
 
     public LoginAppModel loginModel = new LoginAppModel();
+
+    @FXML
+    private Button signupButton;
 
     @FXML
     private Label isConnected;
@@ -48,16 +52,13 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void Login(ActionEvent event) {
-
         try {
+            Stage stage = (Stage) this.loginButton.getScene().getWindow();
+            stage.close();
             if (loginModel.isAdminLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
-                Stage stage = (Stage) this.loginButton.getScene().getWindow();
-                stage.close();
                 adminLogin();
             }
             if (loginModel.isEmployeeLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
-                Stage stage = (Stage) this.loginButton.getScene().getWindow();
-                stage.close();
                 employeeLogin();
             } else {
                 this.loginStatus.setText("Wrong Credentials");
@@ -72,7 +73,7 @@ public class LoginController implements Initializable {
         try {
             Stage userStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane) loader.load(getClass().getResource("DummyEmployee.fxml").openStream());
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/Employee.fxml").openStream());
 //            EmployeeController employeeController = (EmployeeController)loader.getController();
             Scene scene = new Scene(root);
             userStage.setScene(scene);
@@ -88,11 +89,11 @@ public class LoginController implements Initializable {
         try {
             Stage adminStage = new Stage();
             FXMLLoader adminloader = new FXMLLoader();
-            Pane adminroot = (Pane) adminloader.load(getClass().getResource("abc.fxml").openStream());
-//            Pane adminroot = (Pane)adminloader.load(getClass().getResource("ui/Admin.fxml").openStream());
+//            Pane adminroot = (Pane) adminloader.load(getClass().getResource("abc.fxml").openStream());
+            Pane adminroot = (Pane)adminloader.load(getClass().getResource("../ui/Admin.fxml").openStream());
             AdminController adminController = (AdminController)adminloader.getController();
-            Scene scene = new Scene(adminroot);
-            adminStage.setScene(scene);
+            Scene adminScene = new Scene(adminroot);
+            adminStage.setScene(adminScene);
             adminStage.setTitle("Admin Dashboard");
             adminStage.setResizable(false);
             adminStage.show();
@@ -100,6 +101,27 @@ public class LoginController implements Initializable {
             ex.printStackTrace();
         }
     }
+
+
+    @FXML
+    public void SignUp(ActionEvent event){
+        try{
+            Stage stage = (Stage) this.signupButton.getScene().getWindow();
+            stage.close();
+            Stage userStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane) loader.load(getClass().getResource("../ui/signup.fxml").openStream());
+            Scene scene = new Scene(root);
+            userStage.setScene(scene);
+            userStage.setTitle("SignUp Dashboard");
+            userStage.setResizable(false);
+            userStage.show();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

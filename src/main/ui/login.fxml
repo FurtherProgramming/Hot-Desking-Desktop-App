@@ -31,7 +31,7 @@
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>
-      <Button defaultButton="true" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" onAction="#Login" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
+      <Button fx:id="signupButton" defaultButton="true" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
          <effect>
             <Lighting bumpInput="$null" diffuseConstant="2.0">
                <light>

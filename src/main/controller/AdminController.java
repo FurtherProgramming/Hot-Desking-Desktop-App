@@ -102,20 +102,20 @@ public class AdminController implements Initializable {
         String sqlInsert = "INSERT INTO Employee(id,firstname,lastname,username,password,secret_question,answer_to_secret_question,role) VALUES (?,?,?,?,?,?,?,?)";
 
         try{
-            Connection conn = SQLConnection.connect();
-            PreparedStatement stmt = conn.prepareStatement(sqlInsert);
+            Connection c = SQLConnection.connect();
+            PreparedStatement st = c.prepareStatement(sqlInsert);
 
-            stmt.setString(1,this.id.getText());
-            stmt.setString(2,this.firstname.getText());
-            stmt.setString(3,this.lastname.getText());
-            stmt.setString(4,this.username.getText());
-            stmt.setString(5,this.password.getText());
-            stmt.setString(6,this.secretQuestion.getText());
-            stmt.setString(7,this.answer.getText());
-            stmt.setString(8,this.role.getText());
+            st.setString(1,this.id.getText());
+            st.setString(2,this.firstname.getText());
+            st.setString(3,this.lastname.getText());
+            st.setString(4,this.username.getText());
+            st.setString(5,this.password.getText());
+            st.setString(6,this.secretQuestion.getText());
+            st.setString(7,this.answer.getText());
+            st.setString(8,this.role.getText());
 
-            stmt.execute();
-            conn.close();
+            st.execute();
+            c.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -11,7 +11,7 @@
 <AnchorPane prefHeight="578.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SignupController">
    <children>
       <Label layoutX="194.0" layoutY="492.0" text="Create an account" />
-      <Button defaultButton="true" layoutX="155.0" layoutY="509.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
+      <Button defaultButton="true" layoutX="155.0" layoutY="509.0" mnemonicParsing="false" onAction="#Register" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
          <effect>
             <Lighting bumpInput="$null" diffuseConstant="2.0">
                <light>
@@ -23,7 +23,7 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Button>
-      <TextField layoutX="127.0" layoutY="29.0" prefHeight="37.0" prefWidth="252.0" promptText="Employee ID" />
+      <TextField fx:id="id" layoutX="127.0" layoutY="29.0" prefHeight="37.0" prefWidth="252.0" promptText="Employee ID" />
       <Label layoutX="127.0" layoutY="6.0" text="EMPLOYEE ID">
          <font>
             <Font name="Arial Bold" size="14.0" />
@@ -59,11 +59,11 @@
             <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="127.0" layoutY="91.0" prefHeight="37.0" prefWidth="252.0" promptText="Firstname" />
-      <TextField layoutX="126.0" layoutY="156.0" prefHeight="37.0" prefWidth="252.0" promptText="Lastname" />
-      <TextField layoutX="127.0" layoutY="221.0" prefHeight="37.0" prefWidth="252.0" promptText="Username" />
-      <TextField layoutX="126.0" layoutY="358.0" prefHeight="37.0" prefWidth="252.0" promptText="Secret Question" />
-      <PasswordField layoutX="126.0" layoutY="289.0" prefHeight="37.0" prefWidth="252.0" promptText="Password" />
-      <TextField layoutX="126.0" layoutY="423.0" prefHeight="37.0" prefWidth="252.0" promptText="Answer to Secret Question" />
+      <TextField fx:id="firstname" layoutX="127.0" layoutY="91.0" prefHeight="37.0" prefWidth="252.0" promptText="Firstname" />
+      <TextField fx:id="lastname" layoutX="126.0" layoutY="156.0" prefHeight="37.0" prefWidth="252.0" promptText="Lastname" />
+      <TextField fx:id="username" layoutX="127.0" layoutY="221.0" prefHeight="37.0" prefWidth="252.0" promptText="Username" />
+      <TextField fx:id="secretQuestion" layoutX="126.0" layoutY="358.0" prefHeight="37.0" prefWidth="252.0" promptText="Secret Question" />
+      <PasswordField fx:id="password" layoutX="126.0" layoutY="289.0" prefHeight="37.0" prefWidth="252.0" promptText="Password" />
+      <TextField fx:id="answer" layoutX="126.0" layoutY="423.0" prefHeight="37.0" prefWidth="252.0" promptText="Answer to Secret Question" />
    </children>
 </AnchorPane>
