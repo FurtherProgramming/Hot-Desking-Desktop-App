@@ -4,16 +4,11 @@ package main.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -74,6 +69,8 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 
 
     public void employeeLogin(){
@@ -139,7 +136,7 @@ public class LoginController implements Initializable {
             Pane root = (Pane) loader.load(getClass().getResource("../ui/ResetPassword.fxml").openStream());
             Scene scene = new Scene(root);
             userStage.setScene(scene);
-            userStage.setTitle("SignUp Dashboard");
+            userStage.setTitle("Reset Password Dashboard");
             userStage.setResizable(false);
             userStage.show();
         } catch (Exception e){

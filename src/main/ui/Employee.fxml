@@ -55,7 +55,7 @@
                         </Button>
                         <HBox layoutX="-1.0" prefHeight="147.0" prefWidth="344.0">
                            <children>
-                              <DatePicker prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy">
+                              <DatePicker fx:id="date" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy">
                                  <HBox.margin>
                                     <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                                  </HBox.margin>

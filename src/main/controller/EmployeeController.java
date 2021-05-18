@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Rectangle;
@@ -48,10 +47,13 @@ public class EmployeeController implements Initializable {
     private static int bookingCounter = 0;
 
     @FXML
-    private void bookTable1A(ActionEvent event) { booking(); }
+    private void bookTable1A(ActionEvent event) {
+        booking();
+    }
     @FXML
     private void bookTable1B(ActionEvent event){
         booking();
+
     }
     @FXML
     private void bookTable1C(ActionEvent event){
@@ -87,21 +89,9 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    @FXML
-    private void employeeBooking(){
-        UserHolder holder = UserHolder.getInstance();
-        User user = holder.getUser();
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String dateString = date.getValue().toString();
-        String desk = desk1A.getText();
-        String status = "pending";
-        loginModel.isEmployeeBooking(username, password, dateString, status, desk);
-    }
 
     public void booking(){
         if (bookingCounter == 0){
-            bookingConfirmation();
             employeeBooking();
             bookingCounter++;
         }
@@ -145,6 +135,20 @@ public class EmployeeController implements Initializable {
         delete_checkin_button.setText("Check-in");
     }
 
+    @FXML
+    private void employeeBooking(){
+        UserHolder holder = UserHolder.getInstance();
+        User user = holder.getUser();
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String dateString = date.getValue().toString();
+        String desk = desk1A.getText();
+        String status = "pending";
+        if(loginModel.isEmployeeBooking(username, password, dateString, status, desk) == true){
+            bookingConfirmation();
+        }
+        else{ noMoreBooking();}
+    }
 
 
 
