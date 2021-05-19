@@ -71,27 +71,27 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private void bookTable1A(ActionEvent event) {
-        employeeBooking();
+        employeeBooking(desk1A.getText());
     }
     @FXML
     private void bookTable1B(ActionEvent event){
-        employeeBooking();
+        employeeBooking(desk1B.getText());
     }
     @FXML
     private void bookTable1C(ActionEvent event){
-        employeeBooking();
+        employeeBooking(desk1C.getText());
     }
     @FXML
     private void bookTable1D(ActionEvent event){
-        employeeBooking();
+        employeeBooking(desk1D.getText());
     }
     @FXML
     private void bookTable1E(ActionEvent event){
-        employeeBooking();
+        employeeBooking(desk1E.getText());
     }
     @FXML
     private void bookTable1F(ActionEvent event){
-        employeeBooking();
+        employeeBooking(desk1F.getText());
     }
 
     @FXML
@@ -166,15 +166,13 @@ public class EmployeeController implements Initializable {
         delete_checkin_button.setText("Check-in");
     }
 
-    @FXML
-    private void employeeBooking(){
+    private void employeeBooking(String desk){
         UserHolder holder = UserHolder.getInstance();
         User user = holder.getUser();
         String username = user.getUsername();
         String password = user.getPassword();
         String dateString = date.getValue().toString();
-        String desk = desk1A.getText();
-        if(!loginModel.isBookingExist(username,password))
+        if(!loginModel.isBookingExist(dateString))
         {
             loginModel.isBooking(dateString,desk,username,password);
             bookingConfirmation();

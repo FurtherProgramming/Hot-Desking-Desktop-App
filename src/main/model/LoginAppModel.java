@@ -140,10 +140,7 @@ public class LoginAppModel {
     }
 
     public  Boolean isBooking(String booking_date, String desk_number, String username, String password){
-
-
         String sql = "INSERT INTO Booking VALUES(NULL, ?,?,?,?,?)";
-
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sql);
@@ -168,13 +165,13 @@ public class LoginAppModel {
         }
     }
 
-    public  Boolean isBookingExist(String username, String password){
-        String sql = "Select * from Booking where booking_status = 'pending' and employee_id = ? ";
+    public  Boolean isBookingExist(String booking_date){
+        String sql = "Select * from Booking where booking_status = 'pending' and booking_date = ? ";
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, getEmployeeID(username,password));
+            preparedStatement.setString(1, booking_date);
             resultSet  = preparedStatement.executeQuery();
             if( resultSet.next() ){
                 preparedStatement.close();
@@ -273,7 +270,7 @@ public class LoginAppModel {
 
     public Boolean displayAvailableTable(String bookingDate, String desk_number){
 
-        String sql = "Select * from Booking where booking_status = 'pending' or booking_status = 'approved' and booking_date = ? and desk_number = ? ";
+        String sql = "Select * from Booking where (booking_status = 'pending' or booking_status = 'approved') and booking_date = ? and desk_number = ? ";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String result = "";
