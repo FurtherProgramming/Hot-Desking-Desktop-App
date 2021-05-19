@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
@@ -17,51 +19,74 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="1270.0">
                      <children>
-                        <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="64.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="64.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="364.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5fff1f" height="100.0" layoutX="664.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="64.0" layoutY="178.0" mnemonicParsing="false" onAction="#bookTable1A" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
+                        <DatePicker fx:id="date" layoutX="36.0" layoutY="38.0" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy" />
+                        <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Label layoutX="108.0" layoutY="276.0" prefHeight="17.0" prefWidth="22.0" text="1A" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fx:id="square_1B" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1C" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="64.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1E" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1F" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="76.0" layoutY="179.0" mnemonicParsing="false" onAction="#bookTable1A" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button blendMode="OVERLAY" layoutX="364.0" layoutY="178.0" mnemonicParsing="false" onAction="#bookTable1B" prefHeight="100.0" prefWidth="99.0" text="1B">
+                        <Button fx:id="desk1B" blendMode="OVERLAY" layoutX="364.0" layoutY="178.0" mnemonicParsing="false" onAction="#bookTable1B" prefHeight="100.0" prefWidth="99.0" text="1B">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button blendMode="OVERLAY" layoutX="664.0" layoutY="178.0" mnemonicParsing="false" onAction="#bookTable1C" prefHeight="100.0" prefWidth="99.0" text="1C">
+                        <Button fx:id="desk1C" blendMode="OVERLAY" layoutX="664.0" layoutY="178.0" mnemonicParsing="false" onAction="#bookTable1C" prefHeight="100.0" prefWidth="99.0" text="1C">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button blendMode="OVERLAY" layoutX="65.0" layoutY="372.0" mnemonicParsing="false" onAction="#bookTable1D" prefHeight="100.0" prefWidth="99.0" text="1D">
+                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="65.0" layoutY="372.0" mnemonicParsing="false" onAction="#bookTable1D" prefHeight="100.0" prefWidth="99.0" text="1D">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button blendMode="OVERLAY" layoutX="365.0" layoutY="372.0" mnemonicParsing="false" onAction="#bookTable1E" prefHeight="100.0" prefWidth="99.0" text="1E">
+                        <Button fx:id="desk1E" blendMode="OVERLAY" layoutX="365.0" layoutY="372.0" mnemonicParsing="false" onAction="#bookTable1E" prefHeight="100.0" prefWidth="99.0" text="1E">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button blendMode="OVERLAY" layoutX="664.0" layoutY="371.0" mnemonicParsing="false" onAction="#bookTable1F" prefHeight="100.0" prefWidth="99.0" text="1F">
+                        <Button fx:id="desk1F" blendMode="OVERLAY" layoutX="664.0" layoutY="371.0" mnemonicParsing="false" onAction="#bookTable1F" prefHeight="100.0" prefWidth="99.0" text="1F">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <HBox layoutX="-1.0" prefHeight="147.0" prefWidth="344.0">
-                           <children>
-                              <DatePicker fx:id="date" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy">
-                                 <HBox.margin>
-                                    <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                                 </HBox.margin>
-                              </DatePicker>
-                           </children>
-                        </HBox>
+                        <Label layoutX="404.0" layoutY="275.0" prefHeight="17.0" prefWidth="22.0" text="1B" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="698.0" layoutY="275.0" prefHeight="26.0" prefWidth="38.0" text="1C" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" text="Confirm" />
+                        <Label layoutX="103.0" layoutY="471.0" prefHeight="26.0" prefWidth="35.0" text="1D" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="398.0" layoutY="471.0" prefHeight="26.0" prefWidth="35.0" text="1E" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="699.0" layoutY="469.0" prefHeight="26.0" prefWidth="35.0" text="1F" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
             </content>

@@ -1,14 +1,12 @@
 package main.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.EmployeeData;
 import main.SQLConnection;
 
-
 import java.sql.*;
-
+import java.time.LocalDateTime;
 
 public class LoginAppModel {
 
@@ -117,23 +115,45 @@ public class LoginAppModel {
         }
     }
 
-    public  Boolean isEmployeeBooking(String username, String password, String booking_date, String booking_status, String desk_number){
 
-        String sqlInsert = "UPDATE Employee SET desk_number = ? ,"
-                            + "booking_date = ? , "
-                            + "booking_status = ?"
-                            + "WHERE username = ?  "
-                            + "AND booking_date is null "
-                            + "AND password = ?";
+
+    public String getEmployeeID(String username, String password){
+        String sql = "Select id from Employee where username = ? and password = ? ";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        String result = "";
         try{
-            preparedStatement = this.connection.prepareStatement(sqlInsert);
-            preparedStatement.setString(1, desk_number);
-            preparedStatement.setString(2, booking_date);
-            preparedStatement.setString(3, booking_status);
-            preparedStatement.setString(4, username);
-            preparedStatement.setString(5, password);
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("id");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public  Boolean isBooking(String booking_date, String desk_number, String username, String password){
+
+
+        String sql = "INSERT INTO Booking VALUES(NULL, ?,?,?,?,?)";
+
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, getEmployeeID(username,password));
+            LocalDateTime timestamp = LocalDateTime.now();
+            preparedStatement.setString(2, timestamp.toString());
+            preparedStatement.setString(3, booking_date);
+            preparedStatement.setString(4, desk_number);
+            preparedStatement.setString(5, "pending");
+
             int rowsUpdated = preparedStatement.executeUpdate();
             if( rowsUpdated > 0){
                 preparedStatement.close();
@@ -147,6 +167,53 @@ public class LoginAppModel {
             return false;
         }
     }
+
+    public  Boolean isBookingExist(String username, String password){
+        String sql = "Select * from Booking where booking_status = 'pending' and employee_id = ? ";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, getEmployeeID(username,password));
+            resultSet  = preparedStatement.executeQuery();
+            if( resultSet.next() ){
+                preparedStatement.close();
+                resultSet.close();
+                return true;
+            } else {
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public  Boolean isBookingApproved(String username, String password){
+        String sql = "Select * from Booking where booking_status = 'approved' and employee_id = ? ";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, getEmployeeID(username,password));
+            resultSet  = preparedStatement.executeQuery();
+            if( resultSet.next() ){
+                preparedStatement.close();
+                resultSet.close();
+                return true;
+            } else {
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public Boolean isResetPassword(String username, String answer){
         String query = "select * from employee where username = ? and answer_to_secret_question = ?";
@@ -181,6 +248,7 @@ public class LoginAppModel {
                 result =  resultSet.getString("secret_question");
             }
             preparedStatement.close();
+            resultSet.close();
 
         } catch (SQLException e) {
            e.printStackTrace();
@@ -192,7 +260,6 @@ public class LoginAppModel {
         String sqlInsert = "UPDATE Employee SET password = ?"
                 + "WHERE username = ?  ";
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, newPassword);
@@ -202,6 +269,58 @@ public class LoginAppModel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Boolean displayAvailableTable(String bookingDate, String desk_number){
+
+        String sql = "Select * from Booking where booking_status = 'pending' or booking_status = 'approved' and booking_date = ? and desk_number = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, bookingDate);
+            preparedStatement.setString(2, desk_number);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                preparedStatement.close();
+                resultSet.close();
+               return true;
+            }
+            else {
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public ObservableList<EmployeeData> displayLoadEmployeeData(){
+        String sql = "SELECT * from Employee";
+        try{
+            this.data = FXCollections.observableArrayList();
+            ResultSet rs = this.connection.createStatement().executeQuery(sql);
+            while(rs.next()){
+                this.data.add(new EmployeeData(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)));
+            }
+        } catch (SQLException e){
+            System.err.println("Error" + e);
+        }
+        return data;
     }
 
 

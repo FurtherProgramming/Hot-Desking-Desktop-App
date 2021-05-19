@@ -1,6 +1,5 @@
 package main.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,10 +11,7 @@ import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.sql.Connection;
 
 public class AdminController implements Initializable {
 
@@ -63,7 +59,7 @@ public class AdminController implements Initializable {
 
     private SQLConnection dc;
     private ObservableList<EmployeeData> data;
-    private String sql = "SELECT * from Employee";
+
 
 
     public void initialize (URL url, ResourceBundle rb){
@@ -71,19 +67,9 @@ public class AdminController implements Initializable {
     }
 
     @FXML
-    private void loadEmployeeData(ActionEvent event) throws SQLException{
-        try{
-            employeeAddedStatus.setText("");
-            Connection conn = SQLConnection.connect();
-            this.data = FXCollections.observableArrayList();
-            ResultSet rs = conn.createStatement().executeQuery(sql);
-            while(rs.next()){
-                this.data.add(new EmployeeData(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)));
-            }
-        } catch (SQLException e){
-            System.err.println("Error" + e);
-        }
-
+    private void loadEmployeeData(ActionEvent event){
+        employeeAddedStatus.setText("");
+        this.data = loginModel.displayLoadEmployeeData();
         this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
         this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
         this.lastnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("lastName"));
@@ -92,7 +78,6 @@ public class AdminController implements Initializable {
         this.secretQuestionColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("secretQuestion"));
         this.answerColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("answer"));
         this.roleColumn .setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("role"));
-
         this.employeeDataTableView.setItems(null);
         this.employeeDataTableView.setItems(this.data);
     }
