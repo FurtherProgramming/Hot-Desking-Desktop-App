@@ -116,7 +116,7 @@ public class LoginAppModel {
     }
 
 
-
+    //return employee id from its username and password
     public String getEmployeeID(String username, String password){
         String sql = "Select id from Employee where username = ? and password = ? ";
         PreparedStatement preparedStatement = null;
@@ -139,6 +139,7 @@ public class LoginAppModel {
         return result;
     }
 
+    //insert new booking to booking table
     public  Boolean isBooking(String booking_date, String desk_number, String username, String password){
         String sql = "INSERT INTO Booking VALUES(NULL, ?,?,?,?,?)";
         PreparedStatement preparedStatement = null;
@@ -165,36 +166,16 @@ public class LoginAppModel {
         }
     }
 
-    public  Boolean isBookingExist(String booking_date){
-        String sql = "Select * from Booking where booking_status = 'pending' and booking_date = ? ";
+    //check if booking exist or not,
+    // if booking status is pending, return true,
+    // user cant make new booking
+    public  Boolean isBookingExist( String username, String password ){
+        String sql = "Select * from Booking where booking_status = 'pending' and employee_id = ? ";
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, booking_date);
-            resultSet  = preparedStatement.executeQuery();
-            if( resultSet.next() ){
-                preparedStatement.close();
-                resultSet.close();
-                return true;
-            } else {
-                preparedStatement.close();
-                resultSet.close();
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public  Boolean isBookingApproved(String username, String password){
-        String sql = "Select * from Booking where booking_status = 'approved' and employee_id = ? ";
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, getEmployeeID(username,password));
+            preparedStatement.setString(1, getEmployeeID(username, password));
             resultSet  = preparedStatement.executeQuery();
             if( resultSet.next() ){
                 preparedStatement.close();
@@ -212,6 +193,8 @@ public class LoginAppModel {
     }
 
 
+
+    //check if the answer to the secret question is correct or not
     public Boolean isResetPassword(String username, String answer){
         String query = "select * from employee where username = ? and answer_to_secret_question = ?";
         PreparedStatement preparedStatement = null;
@@ -232,6 +215,7 @@ public class LoginAppModel {
         }
     }
 
+    //return secret question from employee table
     public String showSecretQuestion(String username){
         String query = "select secret_question from employee where username = ?";
         PreparedStatement preparedStatement = null;
@@ -253,6 +237,7 @@ public class LoginAppModel {
         return result;
     }
 
+    //update new random password to employee table
     public void updatePassword(String username, String newPassword){
         String sqlInsert = "UPDATE Employee SET password = ?"
                 + "WHERE username = ?  ";
@@ -268,8 +253,8 @@ public class LoginAppModel {
         }
     }
 
+    //if booking status is pending or approved, return true
     public Boolean displayAvailableTable(String bookingDate, String desk_number){
-
         String sql = "Select * from Booking where (booking_status = 'pending' or booking_status = 'approved') and booking_date = ? and desk_number = ? ";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -320,7 +305,54 @@ public class LoginAppModel {
         return data;
     }
 
+    public String[] diplayCurrentBooking(String username, String password){
+        String sql = "Select booking_date, desk_number, booking_status from Booking where employee_id = ? and "
+                    + "booking_date = (Select MAX(booking_date) FROM Booking)";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String[] result = new String[3];
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, getEmployeeID(username,password));
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result[0] =  resultSet.getString("booking_date");
+                result[1] =  resultSet.getString("desk_number");
+                result[2] =  resultSet.getString("booking_status");
+            }
+            preparedStatement.close();
+            resultSet.close();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    // if booking status is approved, return true, which means employee can check in
+    public  Boolean isBookingApproved(String username, String password){
+        String sql = "Select * from Booking where booking_status = 'approved' and employee_id = ? and "
+                    + "booking_date = (Select MAX(booking_date) FROM Booking)";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, getEmployeeID(username,password));
+            resultSet  = preparedStatement.executeQuery();
+            if( resultSet.next() ){
+                preparedStatement.close();
+                resultSet.close();
+                return true;
+            } else {
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 }

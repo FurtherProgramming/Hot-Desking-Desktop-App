@@ -20,12 +20,8 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="1270.0">
                      <children>
                         <DatePicker fx:id="date" layoutX="36.0" layoutY="38.0" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy" />
+                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" text="Confirm" />
                         <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Label layoutX="108.0" layoutY="276.0" prefHeight="17.0" prefWidth="22.0" text="1A" textAlignment="CENTER">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
                         <Rectangle fx:id="square_1B" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1C" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="64.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
@@ -61,6 +57,11 @@
                               <Font size="34.0" />
                            </font>
                         </Button>
+                        <Label layoutX="108.0" layoutY="276.0" prefHeight="17.0" prefWidth="22.0" text="1A" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                         <Label layoutX="404.0" layoutY="275.0" prefHeight="17.0" prefWidth="22.0" text="1B" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
@@ -71,7 +72,6 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" text="Confirm" />
                         <Label layoutX="103.0" layoutY="471.0" prefHeight="26.0" prefWidth="35.0" text="1D" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
@@ -95,25 +95,138 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutY="-2.0" prefHeight="690.0" prefWidth="844.0">
+                        <HBox layoutY="-2.0" prefHeight="690.0" prefWidth="553.0">
                            <children>
-                              <TableView fx:id="employeeBookingTableView" prefHeight="690.0" prefWidth="686.0">
-                                <columns>
-                                  <TableColumn fx:id="dateColumn" prefWidth="146.5373054742813" text="Date" />
-                                  <TableColumn fx:id="locationColumn" minWidth="0.0" prefWidth="296.46258544921875" text="Location" />
-                                    <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="240.8697509765625" text="Status" />
-                                </columns>
-                              </TableView>
-                              <VBox prefHeight="690.0" prefWidth="158.0">
+                              <VBox prefHeight="690.0" prefWidth="420.0">
                                  <children>
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="189.0" text="Action" />
-                                    <Button fx:id="delete_checkin_button" mnemonicParsing="false" prefHeight="27.0" prefWidth="168.0" text="Delete" />
+                                    <HBox prefHeight="25.0" prefWidth="286.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="139.0" text="Date">
+                                             <font>
+                                                <Font name="System Bold" size="15.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="129.0" text="Location">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Status">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="25.0" prefWidth="286.0">
+                                       <children>
+                                          <Button fx:id="dateColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" />
+                                          <Button fx:id="locationColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" />
+                                          <Button fx:id="statusColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="690.0" prefWidth="132.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Action" />
+                                    <Button fx:id="delete_checkin_button" mnemonicParsing="false" onAction="#deleteOrCheckIn" prefHeight="27.0" prefWidth="131.0" text="Delete" />
+                                    <Button fx:id="refresh" mnemonicParsing="false" onAction="#manageBooking" prefHeight="27.0" prefWidth="131.0" text="Refresh" />
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
                      </children></AnchorPane>
                </content>
+            </Tab>
+            <Tab text="Account">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.30514705882352944" layoutY="-2.0" prefHeight="690.0" prefWidth="546.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="72.0">
+                                 <children>
+                                    <VBox layoutX="59.0" layoutY="24.0" prefHeight="222.0" prefWidth="105.0">
+                                       <children>
+                                          <Label prefHeight="27.0" prefWidth="82.0" text="Firstname">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label prefHeight="27.0" prefWidth="82.0" text="Lastname">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label prefHeight="27.0" prefWidth="82.0" text="Username">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label prefHeight="27.0" prefWidth="82.0" text="Password">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label prefHeight="27.0" prefWidth="131.0" text="Secret Question">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label prefHeight="27.0" prefWidth="131.0" text="Answer">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="293.0" prefWidth="368.0">
+                                 <children>
+                                    <Button layoutX="28.0" layoutY="291.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="59.0" text="Save" />
+                                    <VBox layoutX="27.0" layoutY="24.0" prefHeight="239.0" prefWidth="295.0" AnchorPane.bottomAnchor="425.0">
+                                       <children>
+                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <PasswordField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </PasswordField>
+                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </content>
             </Tab>
         </tabs>
       </TabPane>

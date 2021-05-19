@@ -107,7 +107,9 @@ public class LoginController implements Initializable {
         }
     }
 
-
+    /* Sign Up Action method
+       take user to a new scene to register
+    */
     @FXML
     public void SignUp(ActionEvent event){
         try{
@@ -115,7 +117,7 @@ public class LoginController implements Initializable {
             stage.close();
             Stage userStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane) loader.load(getClass().getResource("../ui/signup.fxml").openStream());
+            Pane root = (Pane) loader.load(getClass().getResource("../ui/Signup.fxml").openStream());
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("SignUp Dashboard");
@@ -126,6 +128,9 @@ public class LoginController implements Initializable {
         }
     }
 
+    /* Forget Password Action method
+       take user to a new scene to reset their password
+    */
     @FXML
     public void ForgetPassword(ActionEvent event){
         try{

@@ -1,11 +1,14 @@
 package main.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -25,7 +28,6 @@ public class EmployeeController implements Initializable {
     public LoginAppModel loginModel = new LoginAppModel();
 
     private SQLConnection dc;
-    public boolean isBookingConfirmed = false;
 
     @FXML
     private DatePicker date;
@@ -41,7 +43,8 @@ public class EmployeeController implements Initializable {
     private Button desk1E;
     @FXML
     private Button desk1F;
-
+    @FXML
+    private Button refresh;
     @FXML
     private Rectangle square_1A;
     @FXML
@@ -55,6 +58,12 @@ public class EmployeeController implements Initializable {
     @FXML
     private Rectangle square_1F;
 
+    @FXML
+    private Button dateColumn;
+    @FXML
+    private Button locationColumn;
+    @FXML
+    private Button statusColumn;
 
     @FXML
     private Button delete_checkin_button;
@@ -101,7 +110,7 @@ public class EmployeeController implements Initializable {
             new_stage.close();
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane)loader.load(getClass().getResource("../ui/login.fxml").openStream());
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/Login.fxml").openStream());
             Scene scene = new Scene (root);
             stage.setScene(scene);
             stage.setResizable(false);
@@ -161,10 +170,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    public void bookingConfirmed(){
-        isBookingConfirmed = true;
-        delete_checkin_button.setText("Check-in");
-    }
+
 
     private void employeeBooking(String desk){
         UserHolder holder = UserHolder.getInstance();
@@ -172,7 +178,7 @@ public class EmployeeController implements Initializable {
         String username = user.getUsername();
         String password = user.getPassword();
         String dateString = date.getValue().toString();
-        if(!loginModel.isBookingExist(dateString))
+        if(!loginModel.isBookingExist(username, password))
         {
             loginModel.isBooking(dateString,desk,username,password);
             bookingConfirmation();
@@ -180,7 +186,37 @@ public class EmployeeController implements Initializable {
         else{ noMoreBooking();}
     }
 
+    @FXML
+    private void manageBooking(ActionEvent event){
+        UserHolder holder = UserHolder.getInstance();
+        User user = holder.getUser();
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String [] result = new String[3];
+        result = loginModel.diplayCurrentBooking(username, password);
+        dateColumn.setText(result[0]);
+        locationColumn.setText(result[1]);
+        statusColumn.setText(result[2]);
+        if(loginModel.isBookingApproved(username, password)){
+            delete_checkin_button.setText("Check-in");
+        }
+    }
 
+    @FXML
+    private void deleteOrCheckIn(ActionEvent event){
+        if(delete_checkin_button.getText() == "Check-in"){
+
+        }
+        if(delete_checkin_button.getText() == "Delete"){
+
+        }
+    }
+
+    // update user's account details
+    @FXML
+    private void saveUpdate(){
+
+    }
 
 
 }
