@@ -11,9 +11,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.EmployeeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.EmployeeController">
    <children>
-      <TabPane layoutX="-1.0" prefHeight="720.0" prefWidth="1245.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-1.0" prefHeight="720.0" prefWidth="1159.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="Booking" text="Booking">
             <content>
@@ -24,7 +24,7 @@
                         <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1B" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1C" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="64.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="370.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1E" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1F" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="76.0" layoutY="179.0" mnemonicParsing="false" onAction="#bookTable1A" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
@@ -42,7 +42,7 @@
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="65.0" layoutY="372.0" mnemonicParsing="false" onAction="#bookTable1D" prefHeight="100.0" prefWidth="99.0" text="1D">
+                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="76.0" layoutY="370.0" mnemonicParsing="false" onAction="#bookTable1D" prefHeight="100.0" prefWidth="99.0" text="1D">
                            <font>
                               <Font size="34.0" />
                            </font>
@@ -72,7 +72,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label layoutX="103.0" layoutY="471.0" prefHeight="26.0" prefWidth="35.0" text="1D" textAlignment="CENTER">
+                        <Label layoutX="114.0" layoutY="469.0" prefHeight="26.0" prefWidth="35.0" text="1D" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -130,7 +130,7 @@
                               <VBox prefHeight="690.0" prefWidth="132.0">
                                  <children>
                                     <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Action" />
-                                    <Button fx:id="delete_checkin_button" mnemonicParsing="false" onAction="#deleteOrCheckIn" prefHeight="27.0" prefWidth="131.0" text="Delete" />
+                                    <Button fx:id="cancel_checkin_button" mnemonicParsing="false" onAction="#cancelOrCheckIn" prefHeight="27.0" prefWidth="131.0" text="Cancel" />
                                     <Button fx:id="refresh" mnemonicParsing="false" onAction="#manageBooking" prefHeight="27.0" prefWidth="131.0" text="Refresh" />
                                  </children>
                               </VBox>
@@ -139,7 +139,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Account">
+            <Tab fx:id="account" text="Account">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -147,7 +147,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="72.0">
                                  <children>
-                                    <VBox layoutX="59.0" layoutY="24.0" prefHeight="222.0" prefWidth="105.0">
+                                    <VBox layoutX="59.0" layoutY="35.0" prefHeight="222.0" prefWidth="105.0">
                                        <children>
                                           <Label prefHeight="27.0" prefWidth="82.0" text="Firstname">
                                              <VBox.margin>
@@ -181,58 +181,107 @@
                                           </Label>
                                        </children>
                                     </VBox>
+                                    <Button layoutY="1.0" mnemonicParsing="false" onAction="#accountSetting" prefHeight="27.0" prefWidth="162.0" text="Edit Account Details" />
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="293.0" prefWidth="368.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="688.0" prefWidth="448.0">
                                  <children>
-                                    <Button layoutX="28.0" layoutY="291.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="59.0" text="Save" />
-                                    <VBox layoutX="27.0" layoutY="24.0" prefHeight="239.0" prefWidth="295.0" AnchorPane.bottomAnchor="425.0">
+                                    <VBox layoutX="27.0" layoutY="35.0" prefHeight="239.0" prefWidth="295.0" AnchorPane.bottomAnchor="414.0">
                                        <children>
-                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
+                                          <TextField fx:id="firstName" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                          <TextField fx:id="lastName" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                          <TextField fx:id="username" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <PasswordField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
-                                             <VBox.margin>
-                                                <Insets bottom="10.0" />
-                                             </VBox.margin>
-                                          </PasswordField>
-                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                          <TextField fx:id="password" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
+                                          <TextField fx:id="secretQuestion" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="answer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="295.0">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" />
                                              </VBox.margin>
                                           </TextField>
                                        </children>
                                     </VBox>
+                                    <Label fx:id="updateConfirmation" layoutX="26.0" layoutY="288.0" prefHeight="32.0" prefWidth="294.0" textFill="#23e858">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                           </items>
                         </SplitPane>
+                        <VBox layoutX="546.0" layoutY="35.0" prefHeight="225.0" prefWidth="141.0">
+                           <children>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateFirstname" prefHeight="27.0" prefWidth="150.0" text="Edit Firstname">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateLastname" prefHeight="27.0" prefWidth="150.0" text="Edit Lastname">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateUsername" prefHeight="27.0" prefWidth="150.0" text="Edit FUsername">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editPassword" prefHeight="27.0" prefWidth="150.0" text="Edit Password">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateSecretQuestion" prefHeight="27.0" prefWidth="150.0" text="Edit Secret Question">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateAnswer" prefHeight="27.0" prefWidth="150.0" text="Edit Answer">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
         </tabs>
       </TabPane>
-      <VBox layoutX="1244.0" layoutY="1.0" prefHeight="719.0" prefWidth="67.0">
+      <VBox layoutX="1158.0" layoutY="-2.0" prefHeight="712.0" prefWidth="70.0">
          <children>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="33.0" prefWidth="69.0" text="Sign Out" />
+            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="35.0" prefWidth="70.0" text="Sign Out">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow height="0.0" radius="0.0" width="0.0" />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="310.71" color="#f20808" elevation="79.29" />
+                     </light>
+                  </Lighting>
+               </effect></Button>
          </children>
       </VBox>
    </children>

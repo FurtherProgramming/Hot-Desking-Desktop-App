@@ -1,16 +1,12 @@
 package main.controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -23,9 +19,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+
 public class EmployeeController implements Initializable {
 
     public LoginAppModel loginModel = new LoginAppModel();
+
+    private UserHolder holder = UserHolder.getInstance();
+    private User user = holder.getUser();
+    private String usernameString = user.getUsername();
+    private String passwordString = user.getPassword();
 
     private SQLConnection dc;
 
@@ -66,10 +68,28 @@ public class EmployeeController implements Initializable {
     private Button statusColumn;
 
     @FXML
-    private Button delete_checkin_button;
+    private Button cancel_checkin_button;
 
     @FXML
     private Button signOutButton;
+
+    @FXML
+    private TextField firstName;
+    @FXML
+    private TextField lastName;
+    @FXML
+    private TextField password;
+    @FXML
+    private TextField secretQuestion;
+    @FXML
+    private TextField answer;
+
+    @FXML
+    private TextField username;
+
+    @FXML
+    private Label updateConfirmation;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -170,52 +190,107 @@ public class EmployeeController implements Initializable {
         }
     }
 
+    public void noSameDeskBooking(){
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/NoSameDeskBooking.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Booking Confirmation");
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 
     private void employeeBooking(String desk){
-        UserHolder holder = UserHolder.getInstance();
-        User user = holder.getUser();
-        String username = user.getUsername();
-        String password = user.getPassword();
         String dateString = date.getValue().toString();
-        if(!loginModel.isBookingExist(username, password))
+        if(!loginModel.isBookingExist(usernameString, passwordString))
         {
-            loginModel.isBooking(dateString,desk,username,password);
-            bookingConfirmation();
+            if(loginModel.isBooking(dateString,desk,usernameString,passwordString)){bookingConfirmation();}
+            else{ noSameDeskBooking();}
         }
         else{ noMoreBooking();}
     }
 
     @FXML
     private void manageBooking(ActionEvent event){
-        UserHolder holder = UserHolder.getInstance();
-        User user = holder.getUser();
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String [] result = new String[3];
-        result = loginModel.diplayCurrentBooking(username, password);
+        String [] result = loginModel.displayCurrentBooking(usernameString, passwordString);
+        System.out.println(result[0]);
         dateColumn.setText(result[0]);
         locationColumn.setText(result[1]);
         statusColumn.setText(result[2]);
-        if(loginModel.isBookingApproved(username, password)){
-            delete_checkin_button.setText("Check-in");
+        if(loginModel.isBookingApproved(usernameString, passwordString)){
+            cancel_checkin_button.setText("Check-in");
         }
     }
 
     @FXML
-    private void deleteOrCheckIn(ActionEvent event){
-        if(delete_checkin_button.getText() == "Check-in"){
+    private void cancelOrCheckIn(ActionEvent event){
+            loginModel.updateBookingStatus(statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString);
+    }
 
-        }
-        if(delete_checkin_button.getText() == "Delete"){
 
+
+    @FXML
+    private void accountSetting(ActionEvent event){
+        this.username.setPromptText(usernameString);
+        this.password.setPromptText(passwordString);
+        String[] result = loginModel.currentAccountDetails(usernameString,passwordString);
+        this.firstName.setPromptText(result[0]);
+        this.lastName.setPromptText(result[1]);
+        this.secretQuestion.setPromptText(result[2]);
+        this.answer.setPromptText(result[3]);
+    }
+
+    @FXML
+    private void updateFirstname(ActionEvent event){
+        if(!firstName.getText().isEmpty()){
+            loginModel.updateFirstName(usernameString, passwordString, firstName.getText());
+            updateConfirmation.setText(firstName.getText() +" is updated successfully.");
         }
     }
 
-    // update user's account details
     @FXML
-    private void saveUpdate(){
-
+    private void updateLastname(ActionEvent event){
+        if(!lastName.getText().isEmpty()){
+            loginModel.updateLastname(usernameString, passwordString, lastName.getText());
+            updateConfirmation.setText(lastName.getText() + " is updated successfully.");
+        }
+    }
+    @FXML
+    private void updateUsername(ActionEvent event){
+        if(!username.getText().isEmpty()){
+            String ID = loginModel.getEmployeeID(usernameString, passwordString);
+            loginModel.updateUsername(ID, username.getText());
+            updateConfirmation.setText(username.getText() +" is updated successfully.");
+        }
+    }
+    @FXML
+    private void editPassword(ActionEvent event){
+        if(!password.getText().isEmpty()){
+            String ID = loginModel.getEmployeeID(usernameString, passwordString);
+            loginModel.updatePasswordByID(ID, password.getText());
+            updateConfirmation.setText(password.getText() + " is updated successfully.");
+        }
+    }
+    @FXML
+    private void updateSecretQuestion(ActionEvent event){
+        if(!secretQuestion.getText().isEmpty()){
+            loginModel.updateSecretQuestion(usernameString, passwordString, secretQuestion.getText());
+            updateConfirmation.setText(secretQuestion.getText() + " is updated successfully.");
+        }
+    }
+    @FXML
+    private void updateAnswer(ActionEvent event){
+        if(!answer.getText().isEmpty()){
+            loginModel.updateAnswer(usernameString, passwordString, answer.getText());
+            updateConfirmation.setText(answer.getText() + " is updated successfully.");
+        }
     }
 
 
