@@ -28,6 +28,7 @@ public class EmployeeController implements Initializable {
     private User user = holder.getUser();
     private String usernameString = user.getUsername();
     private String passwordString = user.getPassword();
+    private String ID = loginModel.getEmployeeID(usernameString,passwordString);
 
     private SQLConnection dc;
 
@@ -142,20 +143,25 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private void chooseDate(ActionEvent event){
-        HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
-        desks.put(desk1A, square_1A);
-        desks.put(desk1B, square_1B);
-        desks.put(desk1C, square_1C);
-        desks.put(desk1D, square_1D);
-        desks.put(desk1E, square_1E);
-        desks.put(desk1F, square_1F);
-        for(Button desk : desks.keySet()){
-            if(loginModel.displayAvailableTable(date.getValue().toString(), desk.getText())){
-                desks.get(desk).setFill(Color.RED);
-            }else{
-                desks.get(desk).setFill(Color.GREEN);
+        if(loginModel.isValidDate(date.getValue().toString())){
+            HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
+            desks.put(desk1A, square_1A);
+            desks.put(desk1B, square_1B);
+            desks.put(desk1C, square_1C);
+            desks.put(desk1D, square_1D);
+            desks.put(desk1E, square_1E);
+            desks.put(desk1F, square_1F);
+            for(Button desk : desks.keySet()){
+                if(loginModel.displayAvailableTable(date.getValue().toString(), desk.getText())){
+                    desks.get(desk).setFill(Color.RED);
+                }else{
+                    desks.get(desk).setFill(Color.GREEN);
+                }
             }
+        }else {
+            invalidDate();
         }
+
     }
 
 
@@ -205,6 +211,21 @@ public class EmployeeController implements Initializable {
         }
     }
 
+    public void invalidDate(){
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/InvalidDate.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Booking Confirmation");
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 
     private void employeeBooking(String desk){
@@ -220,7 +241,6 @@ public class EmployeeController implements Initializable {
     @FXML
     private void manageBooking(ActionEvent event){
         String [] result = loginModel.displayCurrentBooking(usernameString, passwordString);
-        System.out.println(result[0]);
         dateColumn.setText(result[0]);
         locationColumn.setText(result[1]);
         statusColumn.setText(result[2]);
@@ -233,8 +253,6 @@ public class EmployeeController implements Initializable {
     private void cancelOrCheckIn(ActionEvent event){
             loginModel.updateBookingStatus(statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString);
     }
-
-
 
     @FXML
     private void accountSetting(ActionEvent event){
@@ -250,7 +268,7 @@ public class EmployeeController implements Initializable {
     @FXML
     private void updateFirstname(ActionEvent event){
         if(!firstName.getText().isEmpty()){
-            loginModel.updateFirstName(usernameString, passwordString, firstName.getText());
+            loginModel.updateFirstName(ID, firstName.getText());
             updateConfirmation.setText(firstName.getText() +" is updated successfully.");
         }
     }
@@ -258,14 +276,13 @@ public class EmployeeController implements Initializable {
     @FXML
     private void updateLastname(ActionEvent event){
         if(!lastName.getText().isEmpty()){
-            loginModel.updateLastname(usernameString, passwordString, lastName.getText());
+            loginModel.updateLastname(ID, lastName.getText());
             updateConfirmation.setText(lastName.getText() + " is updated successfully.");
         }
     }
     @FXML
     private void updateUsername(ActionEvent event){
         if(!username.getText().isEmpty()){
-            String ID = loginModel.getEmployeeID(usernameString, passwordString);
             loginModel.updateUsername(ID, username.getText());
             updateConfirmation.setText(username.getText() +" is updated successfully.");
         }
@@ -273,7 +290,6 @@ public class EmployeeController implements Initializable {
     @FXML
     private void editPassword(ActionEvent event){
         if(!password.getText().isEmpty()){
-            String ID = loginModel.getEmployeeID(usernameString, passwordString);
             loginModel.updatePasswordByID(ID, password.getText());
             updateConfirmation.setText(password.getText() + " is updated successfully.");
         }
@@ -281,14 +297,14 @@ public class EmployeeController implements Initializable {
     @FXML
     private void updateSecretQuestion(ActionEvent event){
         if(!secretQuestion.getText().isEmpty()){
-            loginModel.updateSecretQuestion(usernameString, passwordString, secretQuestion.getText());
+            loginModel.updateSecretQuestion(ID, secretQuestion.getText());
             updateConfirmation.setText(secretQuestion.getText() + " is updated successfully.");
         }
     }
     @FXML
     private void updateAnswer(ActionEvent event){
         if(!answer.getText().isEmpty()){
-            loginModel.updateAnswer(usernameString, passwordString, answer.getText());
+            loginModel.updateAnswer(ID, answer.getText());
             updateConfirmation.setText(answer.getText() + " is updated successfully.");
         }
     }

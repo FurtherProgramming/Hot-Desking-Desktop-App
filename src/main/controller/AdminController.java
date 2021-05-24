@@ -2,9 +2,13 @@ package main.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import main.EmployeeData;
 import main.SQLConnection;
 import javafx.event.ActionEvent;
@@ -111,6 +115,22 @@ public class AdminController implements Initializable {
         this.secretQuestion.setText("");
         this.answer.setText("");
         this.role.setText("");
+    }
+
+    @FXML
+    private void updateEmployee(ActionEvent event){
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/UpdateEmployeeDetailsByAdmin.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Update Employee Dashboard");
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 

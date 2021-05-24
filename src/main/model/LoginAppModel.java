@@ -6,7 +6,9 @@ import main.EmployeeData;
 import main.SQLConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LoginAppModel {
 
@@ -139,16 +141,30 @@ public class LoginAppModel {
         return result;
     }
 
+    //check if booking_date is a valid date (not past date)
+    public Boolean isValidDate(String booking_date){
+        LocalDate timestampdate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate bookingDate = LocalDate.parse(booking_date,formatter);
+        if(bookingDate.isAfter(timestampdate)){
+            return  true;
+        }
+        else {
+            return false;
+        }
+    }
+
     //insert new booking to booking table
     public  Boolean isBooking(String booking_date, String desk_number, String username, String password){
         String sql = "INSERT INTO Booking VALUES(NULL, ?,?,?,?,?)";
         System.out.println(previousDesk(username, password));
         PreparedStatement preparedStatement = null;
         try{
+            LocalDateTime timestamp = LocalDateTime.now();
             if(checkPrevDeskBeforeBooking(desk_number,username,password)){
                 preparedStatement = this.connection.prepareStatement(sql);
                 preparedStatement.setString(1, getEmployeeID(username,password));
-                LocalDateTime timestamp = LocalDateTime.now();
+
                 preparedStatement.setString(2, timestamp.toString());
                 preparedStatement.setString(3, booking_date);
                 preparedStatement.setString(4, desk_number);
@@ -397,14 +413,14 @@ public class LoginAppModel {
     }
 
     //update new firstname to employee table
-    public void updateFirstName(String username, String password, String firstname){
+    public void updateFirstName(String id, String firstname){
         String sqlInsert = "UPDATE Employee SET firstname = ?"
                 + "WHERE id = ?  ";
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, firstname);
-            preparedStatement.setString(2, getEmployeeID(username,password));
+            preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -413,14 +429,14 @@ public class LoginAppModel {
     }
 
     //update new lastname to employee table
-    public void updateLastname(String username, String password, String lastname){
+    public void updateLastname(String id, String lastname){
         String sqlInsert = "UPDATE Employee SET lastname = ?"
                 + "WHERE id = ?  ";
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, lastname);
-            preparedStatement.setString(2, getEmployeeID(username,password));
+            preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -461,14 +477,14 @@ public class LoginAppModel {
     }
 
     //update new secret question to employee table
-    public void updateSecretQuestion(String username, String password, String secretQuestion){
+    public void updateSecretQuestion(String id, String secretQuestion){
         String sqlInsert = "UPDATE Employee SET secret_question = ?"
                 + "WHERE id = ?  ";
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, secretQuestion);
-            preparedStatement.setString(2, getEmployeeID(username,password));
+            preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -477,14 +493,14 @@ public class LoginAppModel {
     }
 
     //update new answer to secret question to employee table
-    public void updateAnswer(String username, String password, String answer){
+    public void updateAnswer(String id, String answer){
         String sqlInsert = "UPDATE Employee SET answer_to_secret_question = ?"
                 + "WHERE id = ?  ";
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, answer);
-            preparedStatement.setString(2, getEmployeeID(username,password));
+            preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -523,7 +539,6 @@ public class LoginAppModel {
         PreparedStatement preparedStatement = null;
         String id = getEmployeeID(username,password);
         try{
-
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, newBookingStatus);
             preparedStatement.setString(2, oldBookingStatus);
@@ -534,6 +549,8 @@ public class LoginAppModel {
             e.printStackTrace();
         }
     }
+
+
 
 
 }
