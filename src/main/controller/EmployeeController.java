@@ -33,7 +33,11 @@ public class EmployeeController implements Initializable {
     private SQLConnection dc;
 
     @FXML
+    private Button refresh;
+
+    @FXML
     private DatePicker date;
+
     @FXML
     private Button desk1A;
     @FXML
@@ -46,8 +50,7 @@ public class EmployeeController implements Initializable {
     private Button desk1E;
     @FXML
     private Button desk1F;
-    @FXML
-    private Button refresh;
+
     @FXML
     private Rectangle square_1A;
     @FXML
@@ -98,30 +101,54 @@ public class EmployeeController implements Initializable {
     }
 
 
-
     @FXML
     private void bookTable1A(ActionEvent event) {
-        employeeBooking(desk1A.getText());
+        String desk = desk1A.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        }
+        else{ noMoreBooking();}
     }
     @FXML
     private void bookTable1B(ActionEvent event){
-        employeeBooking(desk1B.getText());
+        String desk = desk1B.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        } else{ noMoreBooking();}
     }
     @FXML
     private void bookTable1C(ActionEvent event){
-        employeeBooking(desk1C.getText());
+        String desk = desk1C.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        } else{ noMoreBooking();}
     }
     @FXML
     private void bookTable1D(ActionEvent event){
-        employeeBooking(desk1D.getText());
+        String desk = desk1D.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        } else{ noMoreBooking();}
     }
     @FXML
     private void bookTable1E(ActionEvent event){
-        employeeBooking(desk1E.getText());
+        String desk = desk1E.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        } else{ noMoreBooking();}
     }
     @FXML
     private void bookTable1F(ActionEvent event){
-        employeeBooking(desk1F.getText());
+        String desk = desk1F.getText();
+        String dateString = this.date.getValue().toString();
+        if(!loginModel.isBookingExist(dateString,desk)){
+            employeeBooking(desk);
+        } else{ noMoreBooking();}
     }
 
     @FXML
@@ -143,25 +170,15 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private void chooseDate(ActionEvent event){
-        if(loginModel.isValidDate(date.getValue().toString())){
-            HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
-            desks.put(desk1A, square_1A);
-            desks.put(desk1B, square_1B);
-            desks.put(desk1C, square_1C);
-            desks.put(desk1D, square_1D);
-            desks.put(desk1E, square_1E);
-            desks.put(desk1F, square_1F);
-            for(Button desk : desks.keySet()){
-                if(loginModel.displayAvailableTable(date.getValue().toString(), desk.getText())){
-                    desks.get(desk).setFill(Color.RED);
-                }else{
-                    desks.get(desk).setFill(Color.GREEN);
-                }
-            }
-        }else {
-            invalidDate();
-        }
-
+        HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
+        desks.put(desk1A, square_1A);
+        desks.put(desk1B, square_1B);
+        desks.put(desk1C, square_1C);
+        desks.put(desk1D, square_1D);
+        desks.put(desk1E, square_1E);
+        desks.put(desk1F, square_1F);
+        ViewBookingController viewBookingController = new ViewBookingController();
+        viewBookingController.chooseDate(desks, date);
     }
 
 
@@ -211,28 +228,13 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    public void invalidDate(){
-        try {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane)loader.load(getClass().getResource("../ui/InvalidDate.fxml").openStream());
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Booking Confirmation");
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
 
     private void employeeBooking(String desk){
-        String dateString = date.getValue().toString();
-        if(!loginModel.isBookingExist(usernameString, passwordString))
+        if(!loginModel.isBookingExistForEmployee(usernameString, passwordString))
         {
-            if(loginModel.isBooking(dateString,desk,usernameString,passwordString)){bookingConfirmation();}
+            String dateString = this.date.getValue().toString();
+            if(loginModel.isBooking(dateString,desk,usernameString,passwordString))
+            {bookingConfirmation();}
             else{ noSameDeskBooking();}
         }
         else{ noMoreBooking();}

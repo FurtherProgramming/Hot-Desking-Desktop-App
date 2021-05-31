@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -110,28 +113,146 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Booking">
+            <Tab text="Manage Booking">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="1194.0">
                      <children>
-                        <VBox prefHeight="692.0" prefWidth="262.0" />
+                        <VBox prefHeight="692.0" prefWidth="262.0">
+                           <children>
+                              <VBox prefHeight="244.0" prefWidth="262.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#loadAllBookingData" prefHeight="27.0" prefWidth="266.0" text="Load All Booking Data">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#loadPendingBooking" prefHeight="27.0" prefWidth="266.0" text="Load Pending Booking" />
+                                    <TextField fx:id="bookingNumber" prefHeight="27.0" prefWidth="229.0" promptText="Booking Number">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <HBox prefHeight="38.0" prefWidth="262.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#rejectBooking" prefHeight="27.0" prefWidth="108.0" text="Reject">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onAction="#approveBooking" prefHeight="27.0" prefWidth="108.0" text="Approve">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="262.0" text="Generate Report" />
+                           </children></VBox>
                         <HBox layoutX="262.0" prefHeight="688.0" prefWidth="830.0">
                            <children>
-                              <TableView prefHeight="682.0" prefWidth="833.0">
+                              <TableView fx:id="bookingDataTableView" prefHeight="682.0" prefWidth="833.0">
                                 <columns>
-                                  <TableColumn prefWidth="112.0" text="Booking Number" />
-                                  <TableColumn prefWidth="94.0" text="Employee ID" />
-                                    <TableColumn minWidth="0.0" prefWidth="210.0" text="Timestamp" />
-                                    <TableColumn prefWidth="116.0" text="Booking Date" />
-                                    <TableColumn prefWidth="118.0" text="Location" />
-                                    <TableColumn prefWidth="183.0" text="Booking Status" />
+                                  <TableColumn fx:id="bookingNumberColumn" prefWidth="112.0" text="Booking Number" />
+                                  <TableColumn fx:id="employeeIDColumn" prefWidth="94.0" text="Employee ID" />
+                                    <TableColumn fx:id="timestampColumn" minWidth="0.0" prefWidth="210.0" text="Timestamp" />
+                                    <TableColumn fx:id="bookingDateColumn" prefWidth="116.0" text="Booking Date" />
+                                    <TableColumn fx:id="locationColumn" prefWidth="118.0" text="Location" />
+                                    <TableColumn fx:id="bookingStatusColumn" prefWidth="183.0" text="Booking Status" />
                                 </columns>
                               </TableView>
                            </children>
                         </HBox>
+                        <VBox layoutX="1093.0" layoutY="659.0" prefHeight="28.0" prefWidth="188.0" />
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+            <Tab text="View Booking">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="663.0" prefWidth="1106.0">
+                     <children>
+                        <DatePicker fx:id="date" layoutX="36.0" layoutY="38.0" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy" />
+                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" text="Confirm" />
+                        <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1B" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1C" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="370.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1E" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Rectangle fx:id="square_1F" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
+                        <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="76.0" layoutY="179.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desk1B" blendMode="OVERLAY" layoutX="364.0" layoutY="178.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1B">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desk1C" blendMode="OVERLAY" layoutX="664.0" layoutY="178.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1C">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="76.0" layoutY="370.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1D">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desk1E" blendMode="OVERLAY" layoutX="365.0" layoutY="372.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1E">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desk1F" blendMode="OVERLAY" layoutX="664.0" layoutY="371.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1F">
+                           <font>
+                              <Font size="34.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="108.0" layoutY="276.0" prefHeight="17.0" prefWidth="22.0" text="1A" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="404.0" layoutY="275.0" prefHeight="17.0" prefWidth="22.0" text="1B" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="698.0" layoutY="275.0" prefHeight="26.0" prefWidth="38.0" text="1C" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="114.0" layoutY="469.0" prefHeight="26.0" prefWidth="35.0" text="1D" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="398.0" layoutY="471.0" prefHeight="26.0" prefWidth="35.0" text="1E" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="699.0" layoutY="469.0" prefHeight="26.0" prefWidth="35.0" text="1F" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="613.0" layoutY="571.0" prefHeight="40.0" prefWidth="156.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#lockdownAll" prefHeight="40.0" prefWidth="188.0" text="Lockdown All">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
         </tabs>
       </TabPane>

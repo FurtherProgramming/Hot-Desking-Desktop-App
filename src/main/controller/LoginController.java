@@ -94,6 +94,9 @@ public class LoginController implements Initializable {
 
     public void adminLogin(){
         try {
+            User user = new User(this.txtUsername.getText(), this.txtPassword.getText());
+            UserHolder holder = UserHolder.getInstance();
+            holder.setUser(user);
             Stage adminStage = new Stage();
             FXMLLoader adminloader = new FXMLLoader();
             Pane adminroot = (Pane)adminloader.load(getClass().getResource("../ui/Admin.fxml").openStream());

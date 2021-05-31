@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="138.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Text fx:id="text" layoutX="5.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="YOU CAN'T MAKE BOOKING ON PAST DATE!" textAlignment="CENTER" wrappingWidth="387.58251953125">
+        <Text fx:id="text" layoutX="5.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="YOU CAN'T CHOOSE PAST DATE!" textAlignment="CENTER" wrappingWidth="387.58251953125">
             <font>
                 <Font size="22.0" />
             </font>

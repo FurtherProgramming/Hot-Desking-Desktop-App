@@ -8,13 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import main.EmployeeData;
-import main.SQLConnection;
+import main.*;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -39,8 +41,8 @@ public class AdminController implements Initializable {
     private TextField role;
     @FXML
     private Label employeeAddedStatus;
-
-
+    @FXML
+    private TextField bookingNumber;
 
     @FXML
     private TableView<EmployeeData> employeeDataTableView;
@@ -60,9 +62,53 @@ public class AdminController implements Initializable {
     private TableColumn<EmployeeData,String> answerColumn;
     @FXML
     private TableColumn<EmployeeData,String> roleColumn;
+    @FXML
+    private TableView<BookingData> bookingDataTableView;
+    @FXML
+    private TableColumn<BookingData,String> bookingNumberColumn;
+    @FXML
+    private TableColumn<BookingData,String> employeeIDColumn;
+    @FXML
+    private TableColumn<BookingData,String> timestampColumn;
+    @FXML
+    private TableColumn<BookingData,String> bookingDateColumn;
+    @FXML
+    private TableColumn<BookingData,String> locationColumn;
+    @FXML
+    private TableColumn<BookingData,String> bookingStatusColumn;
+    @FXML
+    private DatePicker date;
+
+    @FXML
+    private Button desk1A;
+    @FXML
+    private Button desk1B;
+    @FXML
+    private Button desk1C;
+    @FXML
+    private Button desk1D;
+    @FXML
+    private Button desk1E;
+    @FXML
+    private Button desk1F;
+
+    @FXML
+    private Rectangle square_1A;
+    @FXML
+    private Rectangle square_1B;
+    @FXML
+    private Rectangle square_1C;
+    @FXML
+    private Rectangle square_1D;
+    @FXML
+    private Rectangle square_1E;
+    @FXML
+    private Rectangle square_1F;
+
 
     private SQLConnection dc;
-    private ObservableList<EmployeeData> data;
+    private ObservableList<EmployeeData> employeeData;
+    private ObservableList<BookingData> bookingData;
 
 
 
@@ -73,7 +119,7 @@ public class AdminController implements Initializable {
     @FXML
     private void loadEmployeeData(ActionEvent event){
         employeeAddedStatus.setText("");
-        this.data = loginModel.displayLoadEmployeeData();
+        this.employeeData = loginModel.displayLoadEmployeeData();
         this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
         this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
         this.lastnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("lastName"));
@@ -83,7 +129,44 @@ public class AdminController implements Initializable {
         this.answerColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("answer"));
         this.roleColumn .setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("role"));
         this.employeeDataTableView.setItems(null);
-        this.employeeDataTableView.setItems(this.data);
+        this.employeeDataTableView.setItems(this.employeeData);
+    }
+
+    @FXML
+    private void loadAllBookingData(ActionEvent event){
+        this.bookingData = loginModel.displayBookingData();
+        this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
+        this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
+        this.timestampColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("timestamp"));
+        this.bookingDateColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingDate"));
+        this.locationColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("deskNumber"));
+        this.bookingStatusColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingStatus"));
+        this.bookingDataTableView.setItems(null);
+        this.bookingDataTableView.setItems(this.bookingData);
+    }
+
+    @FXML
+    private void loadPendingBooking(ActionEvent event){
+        this.bookingData = loginModel.displayPendingBookingData();
+        this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
+        this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
+        this.timestampColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("timestamp"));
+        this.bookingDateColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingDate"));
+        this.locationColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("deskNumber"));
+        this.bookingStatusColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingStatus"));
+        this.bookingDataTableView.setItems(null);
+        this.bookingDataTableView.setItems(this.bookingData);
+    }
+
+    @FXML
+    private void approveBooking(ActionEvent event){
+        loginModel.approveBooking(bookingNumber.getText());
+    }
+
+
+    @FXML
+    private void rejectBooking(ActionEvent event){
+        loginModel.rejectBooking(bookingNumber.getText());
     }
 
     @FXML
@@ -130,6 +213,41 @@ public class AdminController implements Initializable {
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+
+
+    @FXML
+    public void chooseDate(ActionEvent event){
+            HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
+            desks.put(desk1A, square_1A);
+            desks.put(desk1B, square_1B);
+            desks.put(desk1C, square_1C);
+            desks.put(desk1D, square_1D);
+            desks.put(desk1E, square_1E);
+            desks.put(desk1F, square_1F);
+        ViewBookingController viewBookingController = new ViewBookingController();
+        viewBookingController.chooseDate(desks, date);
+    }
+
+    private UserHolder holder = UserHolder.getInstance();
+    private User user = holder.getUser();
+    private String usernameString = user.getUsername();
+    private String passwordString = user.getPassword();
+
+    @FXML
+    public void lockdownAll(){
+        String dateString = date.getValue().toString();
+        LinkedList<Button> deskButton = new LinkedList<Button>();
+        deskButton.add(desk1A);
+        deskButton.add(desk1B);
+        deskButton.add(desk1C);
+        deskButton.add(desk1D);
+        deskButton.add(desk1E);
+        deskButton.add(desk1F);
+        for(int i = 0; i < deskButton.size(); i++){
+            loginModel.adminLockdownTables(dateString,deskButton.get(i).getText(),usernameString,passwordString);
         }
     }
 
