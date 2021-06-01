@@ -1,18 +1,17 @@
 package main.controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import main.SQLConnection;
-import main.User;
-import main.UserHolder;
+import main.*;
 import main.model.LoginAppModel;
 
 import java.net.URL;
@@ -32,8 +31,6 @@ public class EmployeeController implements Initializable {
 
     private SQLConnection dc;
 
-    @FXML
-    private Button refresh;
 
     @FXML
     private DatePicker date;
@@ -240,20 +237,42 @@ public class EmployeeController implements Initializable {
         else{ noMoreBooking();}
     }
 
+    private String approved = "Approved";
     @FXML
     private void manageBooking(ActionEvent event){
         String [] result = loginModel.displayCurrentBooking(usernameString, passwordString);
         dateColumn.setText(result[0]);
         locationColumn.setText(result[1]);
         statusColumn.setText(result[2]);
-        if(loginModel.isBookingApproved(usernameString, passwordString)){
-            cancel_checkin_button.setText("Check-in");
+        String bookingStatus = statusColumn.getText();
+        if(bookingStatus == null){
+            errorMessage.setText("There is no latest booking to be managed.");
         }
+        else if(bookingStatus.equals(approved)){
+                cancel_checkin_button.setText("Check-in");
+        }
+
+
+
     }
 
     @FXML
+    private Label errorMessage;
+
+    @FXML
     private void cancelOrCheckIn(ActionEvent event){
-            loginModel.updateBookingStatus(statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString);
+        if(cancel_checkin_button.getText().equals("Cancel")){
+            if(loginModel.updateBookingStatus(dateColumn.getText(),statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString)){
+                errorMessage.setText("Booking has been canceled.");
+            }
+            else{
+                errorMessage.setText("You cannot cancel booking in less than 48hrs.");
+            }
+        }
+        if(cancel_checkin_button.getText().equals("Check-in")){
+            loginModel.updateBookingStatus(dateColumn.getText(),statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString);
+            errorMessage.setText("You have checked in.");
+        }
     }
 
     @FXML
@@ -309,6 +328,29 @@ public class EmployeeController implements Initializable {
             loginModel.updateAnswer(ID, answer.getText());
             updateConfirmation.setText(answer.getText() + " is updated successfully.");
         }
+    }
+
+    private ObservableList<EmployeeBookingHistory> employeeBookingHistory;
+    @FXML
+    private TableView<EmployeeBookingHistory> employeeBookingHistoryTableView;
+    @FXML
+    private TableColumn<EmployeeBookingHistory, String> bookingNumberCol;
+    @FXML
+    private TableColumn<EmployeeBookingHistory,String> bookingDateCol;
+    @FXML
+    private TableColumn<EmployeeBookingHistory,String> locationCol;
+    @FXML
+    private TableColumn<EmployeeBookingHistory,String> bookingStatusCol;
+
+    @FXML
+    public void viewBookingHistory(ActionEvent event){
+        this.employeeBookingHistory = loginModel.displayEmployeeBookingHistory(ID);
+        this.bookingNumberCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingNumber"));
+        this.bookingDateCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingDate"));
+        this.locationCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("deskNumber"));
+        this.bookingStatusCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingStatus"));
+        this.employeeBookingHistoryTableView.setItems(null);
+        this.employeeBookingHistoryTableView.setItems(this.employeeBookingHistory);
     }
 
 

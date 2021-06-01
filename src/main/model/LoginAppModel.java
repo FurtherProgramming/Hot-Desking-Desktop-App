@@ -3,9 +3,13 @@ package main.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.BookingData;
+import main.EmployeeBookingHistory;
 import main.EmployeeData;
 import main.SQLConnection;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +20,7 @@ public class LoginAppModel {
     Connection connection;
     private ObservableList<EmployeeData> employeeData;
     private ObservableList<BookingData> bookingData;
+    private ObservableList<EmployeeBookingHistory> employeeBookingHistory;
 
     private String approvedStatus = "Approved";
     private String pendingStatus = "Pending";
@@ -404,6 +409,7 @@ public class LoginAppModel {
         return employeeData;
     }
 
+    //display Booking Table to Admin
     public ObservableList<BookingData> displayBookingData(){
         String sql = "SELECT * from Booking";
         try{
@@ -421,6 +427,28 @@ public class LoginAppModel {
             System.err.println("Error" + e);
         }
         return bookingData;
+    }
+
+    //display employee's Booking History
+    public ObservableList<EmployeeBookingHistory> displayEmployeeBookingHistory(String employeeId){
+        String sql = "SELECT booking_number, booking_date, desk_number,booking_status from Booking where employee_id = ?";
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try{
+            this.employeeBookingHistory = FXCollections.observableArrayList();
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, employeeId);
+            rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                this.employeeBookingHistory.add(new EmployeeBookingHistory(rs.getString("booking_number"),
+                        rs.getString("booking_date"),
+                        rs.getString("desk_number"),
+                        rs.getString("booking_status")));
+            }
+        } catch (SQLException e){
+            System.err.println("Error" + e);
+        }
+        return employeeBookingHistory;
     }
 
     public ObservableList<BookingData> displayPendingBookingData(){
@@ -447,8 +475,8 @@ public class LoginAppModel {
     }
     //return string array which contains bookingDate, deskNumber and bookingStatus for an employee
     public String[] displayCurrentBooking(String username, String password){
-        String sql = "Select booking_date, desk_number, booking_status from Booking where employee_id = ? and booking_status = ?"
-                    + "and booking_date = (Select MAX(booking_date) FROM Booking where employee_id = ? and booking_status = ? )";
+        String sql = "Select booking_date, desk_number, booking_status from Booking where employee_id = ? and (booking_status = ? or booking_status = ?) "
+                    + "and booking_date = (Select MAX(booking_date) FROM Booking where employee_id = ? and (booking_status = ? or booking_status = ?) )";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String[] result = new String[3];
@@ -456,8 +484,10 @@ public class LoginAppModel {
             preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, getEmployeeID(username,password));
             preparedStatement.setString(2, pendingStatus);
-            preparedStatement.setString(3, getEmployeeID(username,password));
-            preparedStatement.setString(4, pendingStatus);
+            preparedStatement.setString(3, approvedStatus);
+            preparedStatement.setString(4, getEmployeeID(username,password));
+            preparedStatement.setString(5, pendingStatus);
+            preparedStatement.setString(6, approvedStatus);
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next() ){
                 result[0] =  resultSet.getString("booking_date");
@@ -474,7 +504,7 @@ public class LoginAppModel {
     }
 
     // if booking status is approved, return true, which means employee can check in
-    public  Boolean isBookingApproved(String username, String password){
+    public  Boolean isBookingApproved(String employeeId){
         String sql = "Select * from Booking where booking_status = ? and employee_id = ? and "
                     + "booking_date = (Select MAX(booking_date) FROM Booking  where employee_id = ?)";
         ResultSet resultSet = null;
@@ -482,8 +512,8 @@ public class LoginAppModel {
         try{
             preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, approvedStatus);
-            preparedStatement.setString(2, getEmployeeID(username,password));
-            preparedStatement.setString(3, getEmployeeID(username,password));
+            preparedStatement.setString(2, employeeId);
+            preparedStatement.setString(3, employeeId);
             resultSet  = preparedStatement.executeQuery();
             if( resultSet.next() ){
                 preparedStatement.close();
@@ -622,6 +652,60 @@ public class LoginAppModel {
         }
     }
 
+    //update new role to employee table
+    public void updateRole(String id, String role){
+        String sqlInsert = "UPDATE Employee SET role = ?"
+                + "WHERE id = ?  ";
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sqlInsert);
+            preparedStatement.setString(1, role);
+            preparedStatement.setString(2, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Boolean isIDexist(String id){
+        String sql = "Select id from Employee where id = ?";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet  = preparedStatement.executeQuery();
+            if( resultSet.next()){
+                preparedStatement.close();
+                resultSet.close();
+                return true;
+            } else {
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public void deleteEmployee(String id){
+        String sql = "DELETE FROM Employee WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     //check previous desk number
     public String previousDesk(String username, String password){
         String result = "...";
@@ -646,21 +730,48 @@ public class LoginAppModel {
         return result;
     }
 
+    private String cancelStatus = "Cancel";
+    private String checkinStatus = "Check-in";
+
     //update booking status in Booking table when employee check in or cancel
-    public void updateBookingStatus(String oldBookingStatus, String newBookingStatus, String username, String password){
+    public Boolean updateBookingStatus(String booking_date, String oldBookingStatus, String newBookingStatus, String username, String password){
         String sqlInsert = "UPDATE Booking SET booking_status = ?"
                 + "WHERE booking_status = ?  and employee_id = ?";
         PreparedStatement preparedStatement = null;
         String id = getEmployeeID(username,password);
+        boolean result = false;
         try{
             preparedStatement = this.connection.prepareStatement(sqlInsert);
             preparedStatement.setString(1, newBookingStatus);
             preparedStatement.setString(2, oldBookingStatus);
             preparedStatement.setString(3, id);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
+            if (newBookingStatus.equals(cancelStatus)){
+                //check if its 48hours before the booking date,
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate bookingDate = LocalDate.parse(booking_date,formatter);
+                LocalDate bookingDateMinus2days = bookingDate.minusDays(2);
+                LocalDate today = LocalDate.now();
+                //if yes, it is before 48hrs, executeUpdate
+                if(today.isBefore(bookingDateMinus2days) || today.isEqual(bookingDateMinus2days)){
+                    preparedStatement.executeUpdate();
+                    preparedStatement.close();
+                    result =  true;
+                }
+                //else return false, cannot cancel booking
+                else {
+                    preparedStatement.close();
+                    result = false;
+                }
+            }
+            if(newBookingStatus.equals(checkinStatus)){
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+                result = true;
+            }
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -696,6 +807,113 @@ public class LoginAppModel {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    //export csv of employee table
+    public void exportEmployeeDatabase(){
+        String sql = "Select * from Employee";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String csvFilePath = "EmployeeReport.csv";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+            // write header line containing column names
+            fileWriter.write("id,firstname,lastname,username,password,secret_question,answer_to_secret_question,role");
+            while(resultSet.next() ){
+                String Employee_id = resultSet.getString("id");
+                String Firstname = resultSet.getString("firstname");
+                String Lastname = resultSet.getString("lastname");
+                String Username = resultSet.getString("username");
+                String Password = resultSet.getString("password");
+                String Secret_question = resultSet.getString("secret_question");
+                String Answer = resultSet.getString("answer_to_secret_question");
+                String Role = resultSet.getString("role");
+                String line = String.format("%s,%s,%s,%s,%s,%s,%s,%s",
+                                            Employee_id, Firstname,Lastname,Username,
+                                            Password,Secret_question,Answer,Role);
+                fileWriter.newLine();
+                fileWriter.write(line);
+            }
+            preparedStatement.close();
+            resultSet.close();
+            fileWriter.close();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //export csv of booking table
+    public void exportBookingDatabase(){
+        String sql = "Select * from Booking";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String csvFilePath = "BookingReport.csv";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+            // write header line containing column names
+            fileWriter.write("booking_number,employee_id,timestamp,booking_date,desk_number,booking_status");
+            while(resultSet.next() ){
+                String BookingNumber = resultSet.getString("booking_number");
+                String Employee_id = resultSet.getString("employee_id");
+                String Timestamp = resultSet.getString("timestamp");
+                String BookingDate = resultSet.getString("booking_date");
+                String DeskNumber = resultSet.getString("desk_number");
+                String BookingStatus = resultSet.getString("booking_status");
+                String line = String.format("%s,%s,%s,%s,%s,%s", BookingNumber, Employee_id,Timestamp,BookingDate, DeskNumber,BookingStatus);
+                fileWriter.newLine();
+                fileWriter.write(line);
+            }
+            preparedStatement.close();
+            resultSet.close();
+            fileWriter.close();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //export csv of booking table for a given date
+    public Boolean exportBookingFromDate(String bookingDate){
+        String sql = "Select * from Booking where booking_date = ?";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String csvFilePath = "BookingReportForSingleDate.csv";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, bookingDate);
+            resultSet = preparedStatement.executeQuery();
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+            // write header line containing column names
+            fileWriter.write("booking_number,employee_id,timestamp,booking_date,desk_number,booking_status");
+            if(resultSet.next()){
+                while(resultSet.next() ){
+                    String BookingNumber = resultSet.getString("booking_number");
+                    String Employee_id = resultSet.getString("employee_id");
+                    String Timestamp = resultSet.getString("timestamp");
+                    String BookingDate = resultSet.getString("booking_date");
+                    String DeskNumber = resultSet.getString("desk_number");
+                    String BookingStatus = resultSet.getString("booking_status");
+                    String line = String.format("%s,%s,%s,%s,%s,%s", BookingNumber, Employee_id,Timestamp,BookingDate, DeskNumber,BookingStatus);
+                    fileWriter.newLine();
+                    fileWriter.write(line);
+                }
+                preparedStatement.close();
+                resultSet.close();
+                fileWriter.close();
+                return true;
+            }
+            else{
+                preparedStatement.close();
+                resultSet.close();
+                return false;
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

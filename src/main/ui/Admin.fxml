@@ -32,7 +32,7 @@
                               </TableView>
                            </children>
                         </HBox>
-                        <VBox prefHeight="692.0" prefWidth="262.0">
+                        <VBox prefHeight="690.0" prefWidth="262.0">
                            <children>
                               <Label prefHeight="27.0" prefWidth="262.0" text="Add Employee">
                                  <padding>
@@ -81,25 +81,103 @@
                               </TextField>
                               <Button mnemonicParsing="false" onAction="#addEmployee" prefHeight="27.0" prefWidth="202.0" text="Add Employee">
                                  <VBox.margin>
-                                    <Insets left="15.0" right="15.0" />
+                                    <Insets left="15.0" right="15.0" top="15.0" />
                                  </VBox.margin>
+                                 <effect>
+                                    <Lighting specularConstant="0.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant azimuth="0.0" color="#a4ff8b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="27.0" prefWidth="202.0" text="Clear Form">
+                              <Button mnemonicParsing="false" onAction="#updateEmployee" prefHeight="27.0" prefWidth="202.0" text="Update Employee">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
+                                 <effect>
+                                    <Lighting specularConstant="0.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
                               </Button>
                               <Button mnemonicParsing="false" onAction="#loadEmployeeData" prefHeight="27.0" prefWidth="202.0" text="Load Data">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
+                                 <effect>
+                                    <Lighting specularConstant="0.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#updateEmployee" prefHeight="27.0" prefWidth="202.0" text="Update Employee">
+                              <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="27.0" prefWidth="202.0" text="Clear Form">
                                  <VBox.margin>
-                                    <Insets left="15.0" right="15.0" top="20.0" />
+                                    <Insets left="15.0" right="15.0" />
+                                 </VBox.margin>
+                                 <effect>
+                                    <Lighting diffuseConstant="1.31" specularConstant="0.0" specularExponent="18.57" surfaceScale="10.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#ffea2b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#deleteEmployee" prefHeight="27.0" prefWidth="202.0" text="Delete Employee">
+                                 <effect>
+                                    <Lighting diffuseConstant="1.31" specularConstant="0.0" specularExponent="18.57" surfaceScale="10.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#f24a4a" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" />
                                  </VBox.margin>
                               </Button>
-                              <Label fx:id="employeeAddedStatus" prefHeight="62.0" prefWidth="202.0" wrapText="true">
+                              <Label fx:id="errorMessage" prefHeight="62.0" prefWidth="202.0" textAlignment="JUSTIFY" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="15.0" top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#generateEmployeeReport" prefHeight="32.0" prefWidth="202.0" text="Generate Report">
+                                 <effect>
+                                    <Lighting specularConstant="0.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="100.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label fx:id="reportStatus" prefHeight="50.0" prefWidth="202.0" textAlignment="JUSTIFY" wrapText="true">
                                  <VBox.margin>
                                     <Insets left="15.0" right="15.0" />
                                  </VBox.margin>
@@ -123,10 +201,33 @@
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#loadAllBookingData" prefHeight="27.0" prefWidth="266.0" text="Load All Booking Data">
                                        <VBox.margin>
-                                          <Insets />
+                                          <Insets left="20.0" right="20.0" top="4.0" />
                                        </VBox.margin>
+                                       <effect>
+                                          <Lighting specularConstant="0.0">
+                                             <light>
+                                                <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                             </light>
+                                             <bumpInput>
+                                                <Glow />
+                                             </bumpInput>
+                                          </Lighting>
+                                       </effect>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#loadPendingBooking" prefHeight="27.0" prefWidth="266.0" text="Load Pending Booking" />
+                                    <Button mnemonicParsing="false" onAction="#loadPendingBooking" prefHeight="27.0" prefWidth="266.0" text="Load Pending Booking">
+                                       <effect>
+                                          <Lighting diffuseConstant="1.21" specularConstant="0.0" specularExponent="11.9" surfaceScale="0.0">
+                                             <bumpInput>
+                                                <Glow />
+                                             </bumpInput>
+                                             <light>
+                                                <Light.Distant color="#ffb440" elevation="105.0" />
+                                             </light>
+                                          </Lighting>
+                                       </effect>
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </VBox.margin></Button>
                                     <TextField fx:id="bookingNumber" prefHeight="27.0" prefWidth="229.0" promptText="Booking Number">
                                        <VBox.margin>
                                           <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
@@ -138,17 +239,65 @@
                                              <HBox.margin>
                                                 <Insets left="20.0" right="20.0" />
                                              </HBox.margin>
+                                             <effect>
+                                                <Lighting diffuseConstant="1.31" specularConstant="0.0" specularExponent="18.57">
+                                                   <bumpInput>
+                                                      <Glow />
+                                                   </bumpInput>
+                                                   <light>
+                                                      <Light.Distant color="#f24a4a" elevation="105.0" />
+                                                   </light>
+                                                </Lighting>
+                                             </effect>
                                           </Button>
                                           <Button mnemonicParsing="false" onAction="#approveBooking" prefHeight="27.0" prefWidth="108.0" text="Approve">
                                              <HBox.margin>
                                                 <Insets bottom="20.0" right="20.0" />
                                              </HBox.margin>
+                                             <effect>
+                                                <Lighting specularConstant="0.0">
+                                                   <bumpInput>
+                                                      <Glow />
+                                                   </bumpInput>
+                                                   <light>
+                                                      <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                                   </light>
+                                                </Lighting>
+                                             </effect>
                                           </Button>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="262.0" text="Generate Report" />
+                              <Label text="Booking Date">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="bookingDate" prefHeight="27.0" prefWidth="229.0" promptText="yyyy-mm-dd">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" onAction="#generateBookingReport" prefHeight="34.0" prefWidth="262.0" text="Generate Report">
+                                 <effect>
+                                    <Lighting specularConstant="0.0">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#a4ff8b" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </VBox.margin></Button>
+                              <Label fx:id="bookingReportStatus" prefHeight="77.0" prefWidth="275.0" textAlignment="JUSTIFY" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets left="20.0" right="20.0" top="10.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children></VBox>
                         <HBox layoutX="262.0" prefHeight="688.0" prefWidth="830.0">
                            <children>
@@ -181,32 +330,32 @@
                         <Rectangle fx:id="square_1D" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="370.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1E" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="372.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1F" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="371.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
-                        <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="76.0" layoutY="179.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
+                        <Button fx:id="desk1A" alignment="CENTER" blendMode="OVERLAY" layoutX="76.0" layoutY="179.0" mnemonicParsing="false" onAction="#lock1A" prefHeight="100.0" prefWidth="99.0" text="1A" textAlignment="CENTER" textFill="#0d0d0d">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1B" blendMode="OVERLAY" layoutX="364.0" layoutY="178.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1B">
+                        <Button fx:id="desk1B" blendMode="OVERLAY" layoutX="364.0" layoutY="178.0" mnemonicParsing="false" onAction="#lock1B" prefHeight="100.0" prefWidth="99.0" text="1B">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1C" blendMode="OVERLAY" layoutX="664.0" layoutY="178.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1C">
+                        <Button fx:id="desk1C" blendMode="OVERLAY" layoutX="664.0" layoutY="178.0" mnemonicParsing="false" onAction="#lock1C" prefHeight="100.0" prefWidth="99.0" text="1C">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="76.0" layoutY="370.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1D">
+                        <Button fx:id="desk1D" blendMode="OVERLAY" layoutX="76.0" layoutY="370.0" mnemonicParsing="false" onAction="#lock1D" prefHeight="100.0" prefWidth="99.0" text="1D">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1E" blendMode="OVERLAY" layoutX="365.0" layoutY="372.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1E">
+                        <Button fx:id="desk1E" blendMode="OVERLAY" layoutX="365.0" layoutY="372.0" mnemonicParsing="false" onAction="#lock1E" prefHeight="100.0" prefWidth="99.0" text="1E">
                            <font>
                               <Font size="34.0" />
                            </font>
                         </Button>
-                        <Button fx:id="desk1F" blendMode="OVERLAY" layoutX="664.0" layoutY="371.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="99.0" text="1F">
+                        <Button fx:id="desk1F" blendMode="OVERLAY" layoutX="664.0" layoutY="371.0" mnemonicParsing="false" onAction="#lock1F" prefHeight="100.0" prefWidth="99.0" text="1F">
                            <font>
                               <Font size="34.0" />
                            </font>
@@ -243,10 +392,20 @@
                         </Label>
                         <VBox layoutX="613.0" layoutY="571.0" prefHeight="40.0" prefWidth="156.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#lockdownAll" prefHeight="40.0" prefWidth="188.0" text="Lockdown All">
+                              <Button mnemonicParsing="false" onAction="#lockdownAll" prefHeight="40.0" prefWidth="188.0" text="Lock All">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <effect>
+                                    <Lighting diffuseConstant="1.31" specularConstant="0.0" specularExponent="18.57">
+                                       <bumpInput>
+                                          <Glow />
+                                       </bumpInput>
+                                       <light>
+                                          <Light.Distant color="#f24a4a" elevation="105.0" />
+                                       </light>
+                                    </Lighting>
+                                 </effect>
                               </Button>
                            </children>
                         </VBox>

@@ -2,14 +2,10 @@ package main.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import main.*;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
@@ -40,7 +36,7 @@ public class AdminController implements Initializable {
     @FXML
     private TextField role;
     @FXML
-    private Label employeeAddedStatus;
+    private Label errorMessage;
     @FXML
     private TextField bookingNumber;
 
@@ -109,6 +105,10 @@ public class AdminController implements Initializable {
     private SQLConnection dc;
     private ObservableList<EmployeeData> employeeData;
     private ObservableList<BookingData> bookingData;
+    private UserHolder holder = UserHolder.getInstance();
+    private User user = holder.getUser();
+    private String usernameString = user.getUsername();
+    private String passwordString = user.getPassword();
 
 
 
@@ -118,7 +118,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private void loadEmployeeData(ActionEvent event){
-        employeeAddedStatus.setText("");
+        errorMessage.setText("");
         this.employeeData = loginModel.displayLoadEmployeeData();
         this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
         this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
@@ -180,16 +180,16 @@ public class AdminController implements Initializable {
             String asq = this.answer.getText();
             String role = this.role.getText();
             if(loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role)){
-                employeeAddedStatus.setText("Employee has been added successfully! Refresh by clicking Load Data.");
+                errorMessage.setText("Employee has been added successfully! Refresh by clicking Load Data.");
             }
             else{
-                employeeAddedStatus.setText("Employee ID has been used, try with a new ID.");
+                errorMessage.setText("Employee ID has been used, try with a new ID.");
             }
     }
 
     @FXML
     private void clearForm(ActionEvent event){
-        employeeAddedStatus.setText("");
+        errorMessage.setText("");
         this.id.setText("");
         this.firstname.setText("");
         this.lastname.setText("");
@@ -202,21 +202,50 @@ public class AdminController implements Initializable {
 
     @FXML
     private void updateEmployee(ActionEvent event){
-        try {
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane)loader.load(getClass().getResource("../ui/UpdateEmployeeDetailsByAdmin.fxml").openStream());
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Update Employee Dashboard");
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        errorMessage.setText("");
+        String employeeId = id.getText();
+        String employeeFirstname = firstname.getText();
+        String employeeLastname = lastname.getText();
+        String employeeUsername = username.getText();
+        String employeePassword = password.getText();
+        String employeeSecretQ = secretQuestion.getText();
+        String employeeAnswer = answer.getText();
+        String employeeRole = role.getText();
+        if(!employeeId.isEmpty()){
+            if(loginModel.isIDexist(employeeId)){
+                if(!employeeFirstname.isEmpty()){
+                    loginModel.updateFirstName(employeeId,employeeFirstname);
+                }if(!employeeLastname.isEmpty()){
+                    loginModel.updateLastname(employeeId,employeeLastname);
+                }if(!employeeUsername.isEmpty()){
+                    loginModel.updateUsername(employeeId,employeeUsername);
+                }if(!employeePassword.isEmpty()){
+                    loginModel.updatePasswordByID(employeeId,employeePassword);
+                }if(!employeeSecretQ.isEmpty()){
+                    loginModel.updateSecretQuestion(employeeId,employeeSecretQ);
+                }if(!employeeAnswer.isEmpty()){
+                    loginModel.updateAnswer(employeeId,employeeAnswer);
+                }if(!employeeRole.isEmpty()){
+                    loginModel.updateRole(employeeId,employeeRole);
+                }
+            }else{
+                errorMessage.setText("Make sure you enter the right employee ID");
+            }
+        } else{
+            errorMessage.setText("Make sure you enter an employee ID");
         }
     }
 
-
+    @FXML
+    public void deleteEmployee(ActionEvent event){
+        errorMessage.setText("");
+        String employeeId = id.getText();
+        if(!employeeId.isEmpty() && loginModel.isIDexist(employeeId)){
+            loginModel.deleteEmployee(employeeId);
+        }else{
+            errorMessage.setText("Make sure you enter the right employee ID");
+        }
+    }
 
     @FXML
     public void chooseDate(ActionEvent event){
@@ -231,11 +260,6 @@ public class AdminController implements Initializable {
         viewBookingController.chooseDate(desks, date);
     }
 
-    private UserHolder holder = UserHolder.getInstance();
-    private User user = holder.getUser();
-    private String usernameString = user.getUsername();
-    private String passwordString = user.getPassword();
-
     @FXML
     public void lockdownAll(){
         String dateString = date.getValue().toString();
@@ -249,6 +273,59 @@ public class AdminController implements Initializable {
         for(int i = 0; i < deskButton.size(); i++){
             loginModel.adminLockdownTables(dateString,deskButton.get(i).getText(),usernameString,passwordString);
         }
+    }
+
+
+    @FXML
+    private Label reportStatus;
+    @FXML
+    public void generateEmployeeReport(ActionEvent event){
+        loginModel.exportEmployeeDatabase();
+        reportStatus.setText("Report has been generated, please exit the application to see it.");
+    }
+
+
+    @FXML
+    private Label bookingReportStatus;
+    @FXML
+    private TextField bookingDate;
+    @FXML
+    public void generateBookingReport(ActionEvent event){
+        //if bookingDate textfield is not empty, then generate report for a given date
+        if(!bookingDate.getText().isEmpty()){
+            if(loginModel.exportBookingFromDate(bookingDate.getText())){
+                bookingReportStatus.setText("Report for that booking date has been generated, please exit the application to see it.");
+            }else{
+                bookingReportStatus.setText("Make sure date is in correct format (yyyy-mm-dd)");
+            }
+        }else if(bookingDate.getText().isEmpty()){
+            loginModel.exportBookingDatabase();
+            bookingReportStatus.setText("Report has been generated, please exit the application to see it.");
+        }
+    }
+    @FXML
+    private void lock1A(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1A.getText(),usernameString,passwordString);
+    }
+    @FXML
+    private void lock1B(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1B.getText(),usernameString,passwordString);
+    }
+    @FXML
+    private void lock1C(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1C.getText(),usernameString,passwordString);
+    }
+    @FXML
+    private void lock1D(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1D.getText(),usernameString,passwordString);
+    }
+    @FXML
+    private void lock1E(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1E.getText(),usernameString,passwordString);
+    }
+    @FXML
+    private void lock1F(ActionEvent event){
+        loginModel.adminLockdownTables(date.getValue().toString(),desk1F.getText(),usernameString,passwordString);
     }
 
 
