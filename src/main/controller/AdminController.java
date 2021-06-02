@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.*;
 import javafx.event.ActionEvent;
@@ -36,7 +37,10 @@ public class AdminController implements Initializable {
     @FXML
     private TextField role;
     @FXML
-    private Label errorMessage;
+    private Label manageEmployeeMessage;
+
+    @FXML
+    private Label manageBookingMessage;
     @FXML
     private TextField bookingNumber;
 
@@ -118,7 +122,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private void loadEmployeeData(ActionEvent event){
-        errorMessage.setText("");
+        manageEmployeeMessage.setText("");
         this.employeeData = loginModel.displayLoadEmployeeData();
         this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
         this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
@@ -134,6 +138,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private void loadAllBookingData(ActionEvent event){
+        manageBookingMessage.setText("");
         this.bookingData = loginModel.displayBookingData();
         this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
         this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
@@ -147,6 +152,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private void loadPendingBooking(ActionEvent event){
+        manageBookingMessage.setText("");
         this.bookingData = loginModel.displayPendingBookingData();
         this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
         this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
@@ -158,15 +164,20 @@ public class AdminController implements Initializable {
         this.bookingDataTableView.setItems(this.bookingData);
     }
 
+
     @FXML
     private void approveBooking(ActionEvent event){
         loginModel.approveBooking(bookingNumber.getText());
+        manageBookingMessage.setText("Booking has been approved.");
+        bookingNumber.setText("");
     }
 
 
     @FXML
     private void rejectBooking(ActionEvent event){
         loginModel.rejectBooking(bookingNumber.getText());
+        manageBookingMessage.setText("Booking has been rejected.");
+        bookingNumber.setText("");
     }
 
     @FXML
@@ -180,16 +191,16 @@ public class AdminController implements Initializable {
             String asq = this.answer.getText();
             String role = this.role.getText();
             if(loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role)){
-                errorMessage.setText("Employee has been added successfully! Refresh by clicking Load Data.");
+                manageEmployeeMessage.setText("Employee has been added successfully! Refresh by clicking Load Data.");
             }
             else{
-                errorMessage.setText("Employee ID has been used, try with a new ID.");
+                manageEmployeeMessage.setText("Employee ID has been used, try with a new ID.");
             }
     }
 
     @FXML
     private void clearForm(ActionEvent event){
-        errorMessage.setText("");
+        manageEmployeeMessage.setText("");
         this.id.setText("");
         this.firstname.setText("");
         this.lastname.setText("");
@@ -202,7 +213,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private void updateEmployee(ActionEvent event){
-        errorMessage.setText("");
+        manageEmployeeMessage.setText("");
         String employeeId = id.getText();
         String employeeFirstname = firstname.getText();
         String employeeLastname = lastname.getText();
@@ -229,24 +240,25 @@ public class AdminController implements Initializable {
                     loginModel.updateRole(employeeId,employeeRole);
                 }
             }else{
-                errorMessage.setText("Make sure you enter the right employee ID");
+                manageEmployeeMessage.setText("Make sure you enter the right employee ID");
             }
         } else{
-            errorMessage.setText("Make sure you enter an employee ID");
+            manageEmployeeMessage.setText("Make sure you enter an employee ID");
         }
     }
 
     @FXML
     public void deleteEmployee(ActionEvent event){
-        errorMessage.setText("");
+        manageEmployeeMessage.setText("");
         String employeeId = id.getText();
         if(!employeeId.isEmpty() && loginModel.isIDexist(employeeId)){
             loginModel.deleteEmployee(employeeId);
         }else{
-            errorMessage.setText("Make sure you enter the right employee ID");
+            manageEmployeeMessage.setText("Make sure you enter the right employee ID");
         }
     }
 
+    //admin can look at past date to see the visual representation of the booking
     @FXML
     public void chooseDate(ActionEvent event){
             HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
@@ -256,9 +268,15 @@ public class AdminController implements Initializable {
             desks.put(desk1D, square_1D);
             desks.put(desk1E, square_1E);
             desks.put(desk1F, square_1F);
-        ViewBookingController viewBookingController = new ViewBookingController();
-        viewBookingController.chooseDate(desks, date);
+            for(Button desk : desks.keySet()){
+                if(loginModel.displayAvailableTable(date.getValue().toString(), desk.getText())){
+                    desks.get(desk).setFill(Color.RED);
+                }else{
+                    desks.get(desk).setFill(Color.GREEN);
+                }
+            }
     }
+
 
     @FXML
     public void lockdownAll(){

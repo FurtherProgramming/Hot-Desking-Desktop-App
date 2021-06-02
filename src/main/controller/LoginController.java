@@ -58,6 +58,7 @@ public class LoginController implements Initializable {
             Stage stage = (Stage) this.loginButton.getScene().getWindow();
             stage.close();
             if (loginModel.isAdminLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
+                loginModel.AutomaticCancelBookingByAdmin();
                 adminLogin();
             }
             if (loginModel.isEmployeeLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
@@ -84,7 +85,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("Employee Dashboard");
-            userStage.setResizable(false);
+            userStage.setResizable(true);
             userStage.show();
 
         } catch (Exception ex) {
@@ -103,7 +104,7 @@ public class LoginController implements Initializable {
             Scene adminScene = new Scene(adminroot);
             adminStage.setScene(adminScene);
             adminStage.setTitle("Admin Dashboard");
-            adminStage.setResizable(false);
+            adminStage.setResizable(true);
             adminStage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -124,7 +125,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("SignUp Dashboard");
-            userStage.setResizable(false);
+            userStage.setResizable(true);
             userStage.show();
         } catch (Exception e){
             e.printStackTrace();
@@ -145,7 +146,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             userStage.setScene(scene);
             userStage.setTitle("Reset Password Dashboard");
-            userStage.setResizable(false);
+            userStage.setResizable(true);
             userStage.show();
         } catch (Exception e){
             e.printStackTrace();

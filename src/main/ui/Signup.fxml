@@ -8,10 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="578.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SignupController">
+<AnchorPane prefHeight="578.0" prefWidth="506.0" stylesheets="/main/ui/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SignupController">
    <children>
       <Label layoutX="194.0" layoutY="492.0" text="Create an account" />
-      <Button defaultButton="true" layoutX="155.0" layoutY="509.0" mnemonicParsing="false" onAction="#Register" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
+      <Button defaultButton="true" layoutX="155.0" layoutY="509.0" mnemonicParsing="false" onAction="#Register" prefHeight="55.0" prefWidth="178.0" styleClass="signUpButton" text="Sign up" textAlignment="CENTER" wrapText="true">
          <effect>
             <Lighting bumpInput="$null" diffuseConstant="2.0">
                <light>

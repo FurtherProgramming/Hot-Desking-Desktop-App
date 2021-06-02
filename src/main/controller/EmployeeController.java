@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import main.*;
@@ -61,18 +62,6 @@ public class EmployeeController implements Initializable {
     @FXML
     private Rectangle square_1F;
 
-    @FXML
-    private Button dateColumn;
-    @FXML
-    private Button locationColumn;
-    @FXML
-    private Button statusColumn;
-
-    @FXML
-    private Button cancel_checkin_button;
-
-    @FXML
-    private Button signOutButton;
 
     @FXML
     private TextField firstName;
@@ -148,22 +137,6 @@ public class EmployeeController implements Initializable {
         } else{ noMoreBooking();}
     }
 
-    @FXML
-    private void signOut(ActionEvent event) {
-        try {
-            Stage new_stage = (Stage) this.signOutButton.getScene().getWindow();
-            new_stage.close();
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Pane root = (Pane)loader.load(getClass().getResource("../ui/Login.fxml").openStream());
-            Scene scene = new Scene (root);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     @FXML
     private void chooseDate(ActionEvent event){
@@ -174,8 +147,32 @@ public class EmployeeController implements Initializable {
         desks.put(desk1D, square_1D);
         desks.put(desk1E, square_1E);
         desks.put(desk1F, square_1F);
-        ViewBookingController viewBookingController = new ViewBookingController();
-        viewBookingController.chooseDate(desks, date);
+        if(loginModel.isValidDate(date.getValue().toString())){
+            for(Button desk : desks.keySet()){
+                if(loginModel.displayAvailableTable(date.getValue().toString(), desk.getText())){
+                    desks.get(desk).setFill(Color.RED);
+                }else{
+                    desks.get(desk).setFill(Color.GREEN);
+                }
+            }
+        }else {
+            invalidDate();
+        }
+    }
+
+    private void invalidDate(){
+        try{
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = (Pane)loader.load(getClass().getResource("../ui/InvalidDate.fxml").openStream());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Booking Confirmation");
+            stage.setResizable(true);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 
@@ -188,7 +185,7 @@ public class EmployeeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Booking Confirmation");
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -203,7 +200,7 @@ public class EmployeeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Booking Confirmation");
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -218,7 +215,7 @@ public class EmployeeController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Booking Confirmation");
-            stage.setResizable(false);
+            stage.setResizable(true);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -237,43 +234,43 @@ public class EmployeeController implements Initializable {
         else{ noMoreBooking();}
     }
 
-    private String approved = "Approved";
+
+
     @FXML
-    private void manageBooking(ActionEvent event){
-        String [] result = loginModel.displayCurrentBooking(usernameString, passwordString);
-        dateColumn.setText(result[0]);
-        locationColumn.setText(result[1]);
-        statusColumn.setText(result[2]);
-        String bookingStatus = statusColumn.getText();
-        if(bookingStatus == null){
-            errorMessage.setText("There is no latest booking to be managed.");
-        }
-        else if(bookingStatus.equals(approved)){
-                cancel_checkin_button.setText("Check-in");
-        }
-
-
-
-    }
-
+    private TextField bookingNumber;
     @FXML
     private Label errorMessage;
 
+
     @FXML
-    private void cancelOrCheckIn(ActionEvent event){
-        if(cancel_checkin_button.getText().equals("Cancel")){
-            if(loginModel.updateBookingStatus(dateColumn.getText(),statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString)){
-                errorMessage.setText("Booking has been canceled.");
-            }
-            else{
-                errorMessage.setText("You cannot cancel booking in less than 48hrs.");
-            }
+    private void cancelBooking(ActionEvent event){
+
+        String bookingNumber = this.bookingNumber.getText();
+        if(loginModel.cancelBooking(bookingNumber)){
+            errorMessage.setText("Booking has been canceled.");
+            this.bookingNumber.setText("");
         }
-        if(cancel_checkin_button.getText().equals("Check-in")){
-            loginModel.updateBookingStatus(dateColumn.getText(),statusColumn.getText(),cancel_checkin_button.getText(),usernameString, passwordString);
-            errorMessage.setText("You have checked in.");
+        else{
+            errorMessage.setTextFill(Color.RED);
+            errorMessage.setText("You cannot cancel booking in less than 48hrs.");
+            this.bookingNumber.setText("");
         }
     }
+
+    @FXML
+    private void checkInBooking(ActionEvent event){
+
+        String bookingNumber = this.bookingNumber.getText();
+        if(loginModel.checkInBooking(bookingNumber)){
+            errorMessage.setText("You have checked in.");
+            this.bookingNumber.setText("");
+        }else{
+            errorMessage.setTextFill(Color.RED);
+            errorMessage.setText("You cannot check-in. You can only check-in  when booking is approved by admin and on booking day.");
+            this.bookingNumber.setText("");
+        }
+    }
+
 
     @FXML
     private void accountSetting(ActionEvent event){
@@ -344,6 +341,7 @@ public class EmployeeController implements Initializable {
 
     @FXML
     public void viewBookingHistory(ActionEvent event){
+        errorMessage.setText("");
         this.employeeBookingHistory = loginModel.displayEmployeeBookingHistory(ID);
         this.bookingNumberCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingNumber"));
         this.bookingDateCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingDate"));
@@ -352,6 +350,32 @@ public class EmployeeController implements Initializable {
         this.employeeBookingHistoryTableView.setItems(null);
         this.employeeBookingHistoryTableView.setItems(this.employeeBookingHistory);
     }
+
+    @FXML
+    public void viewPendingBooking(ActionEvent event){
+        errorMessage.setText("");
+        this.employeeBookingHistory = loginModel.displayEmployeePendingBooking(ID);
+        this.bookingNumberCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingNumber"));
+        this.bookingDateCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingDate"));
+        this.locationCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("deskNumber"));
+        this.bookingStatusCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingStatus"));
+        this.employeeBookingHistoryTableView.setItems(null);
+        this.employeeBookingHistoryTableView.setItems(this.employeeBookingHistory);
+    }
+
+    @FXML
+    public void viewApprovedBooking(ActionEvent event){
+        errorMessage.setText("");
+        this.employeeBookingHistory = loginModel.displayEmployeeApprovedBooking(ID);
+        this.bookingNumberCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingNumber"));
+        this.bookingDateCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingDate"));
+        this.locationCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("deskNumber"));
+        this.bookingStatusCol.setCellValueFactory(new PropertyValueFactory<EmployeeBookingHistory,String>("bookingStatus"));
+        this.employeeBookingHistoryTableView.setItems(null);
+        this.employeeBookingHistoryTableView.setItems(this.employeeBookingHistory);
+    }
+
+
 
 
 }

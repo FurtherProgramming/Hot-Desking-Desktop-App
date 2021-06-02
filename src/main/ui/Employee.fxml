@@ -11,16 +11,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.EmployeeController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="709.0" prefWidth="1228.0" stylesheets="/main/ui/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.EmployeeController">
    <children>
-      <TabPane layoutX="-1.0" prefHeight="720.0" prefWidth="1159.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-1.0" prefHeight="720.0" prefWidth="1228.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="Booking" text="Booking">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="1270.0">
                      <children>
                         <DatePicker fx:id="date" layoutX="36.0" layoutY="38.0" prefHeight="60.0" prefWidth="234.0" promptText="dd-mm-yyyy" />
-                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" text="Confirm" />
+                        <Button layoutX="181.0" layoutY="97.0" mnemonicParsing="false" onAction="#chooseDate" styleClass="greenButton" text="Confirm" />
                         <Rectangle fx:id="square_1A" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="75.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1B" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="364.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
                         <Rectangle fx:id="square_1C" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="100.0" layoutX="664.0" layoutY="178.0" stroke="BLACK" strokeType="INSIDE" width="100.0" />
@@ -91,58 +91,9 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Manage Latest Booking">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="667.0" prefWidth="1152.0">
-                     <children>
-                        <HBox layoutY="-2.0" prefHeight="690.0" prefWidth="553.0">
-                           <children>
-                              <VBox prefHeight="256.0" prefWidth="420.0">
-                                 <children>
-                                    <HBox prefHeight="25.0" prefWidth="286.0">
-                                       <children>
-                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="139.0" text="Date">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Button>
-                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="129.0" text="Location">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Button>
-                                          <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="152.0" text="Status">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="25.0" prefWidth="286.0">
-                                       <children>
-                                          <Button fx:id="dateColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" />
-                                          <Button fx:id="locationColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="127.0" />
-                                          <Button fx:id="statusColumn" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" />
-                                       </children>
-                                    </HBox>
-                                    <Label fx:id="errorMessage" prefHeight="51.0" prefWidth="421.0" textAlignment="JUSTIFY" wrapText="true" />
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="690.0" prefWidth="132.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="130.0" text="Action" />
-                                    <Button fx:id="cancel_checkin_button" mnemonicParsing="false" onAction="#cancelOrCheckIn" prefHeight="27.0" prefWidth="131.0" text="Cancel" />
-                                    <Button mnemonicParsing="false" onAction="#manageBooking" prefHeight="27.0" prefWidth="131.0" text="Refresh" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children></AnchorPane>
-               </content>
-            </Tab>
             <Tab fx:id="account" text="Account">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="1121.0">
                      <children>
                         <SplitPane dividerPositions="0.30514705882352944" layoutY="-2.0" prefHeight="690.0" prefWidth="546.0">
                           <items>
@@ -182,7 +133,7 @@
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <Button layoutY="1.0" mnemonicParsing="false" onAction="#accountSetting" prefHeight="27.0" prefWidth="162.0" text="Edit Account Details" />
+                                    <Button layoutY="1.0" mnemonicParsing="false" onAction="#accountSetting" prefHeight="27.0" prefWidth="162.0" styleClass="yellowButton" text="Account Details" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="688.0" prefWidth="448.0">
@@ -230,34 +181,34 @@
                               </AnchorPane>
                           </items>
                         </SplitPane>
-                        <VBox layoutX="546.0" layoutY="35.0" prefHeight="225.0" prefWidth="141.0">
+                        <VBox layoutX="546.0" layoutY="31.0" prefHeight="272.0" prefWidth="194.0">
                            <children>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateFirstname" prefHeight="27.0" prefWidth="150.0" text="Edit Firstname">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateFirstname" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit Firstname">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateLastname" prefHeight="27.0" prefWidth="150.0" text="Edit Lastname">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateLastname" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit Lastname">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateUsername" prefHeight="27.0" prefWidth="150.0" text="Edit FUsername">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateUsername" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit FUsername">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editPassword" prefHeight="27.0" prefWidth="150.0" text="Edit Password">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editPassword" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit Password">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateSecretQuestion" prefHeight="27.0" prefWidth="150.0" text="Edit Secret Question">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateSecretQuestion" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit Secret Question">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateAnswer" prefHeight="27.0" prefWidth="150.0" text="Edit Answer">
+                              <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateAnswer" prefHeight="27.0" prefWidth="150.0" styleClass="greenButton" text="Edit Answer">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -268,11 +219,11 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Booking History">
+            <Tab text="Manage Booking">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="employeeBookingHistoryTableView" layoutX="177.0" prefHeight="677.0" prefWidth="526.0">
+                        <TableView fx:id="employeeBookingHistoryTableView" layoutX="239.0" layoutY="-1.0" prefHeight="677.0" prefWidth="526.0">
                           <columns>
                               <TableColumn fx:id="bookingNumberCol" prefWidth="107.0" text="Booking No." />
                             <TableColumn fx:id="bookingDateCol" prefWidth="120.0" text="Date" />
@@ -280,9 +231,60 @@
                               <TableColumn fx:id="bookingStatusCol" prefWidth="168.0" text="Status" />
                           </columns>
                         </TableView>
-                        <VBox layoutX="1.0" prefHeight="207.0" prefWidth="176.0">
+                        <VBox layoutX="1.0" prefHeight="677.0" prefWidth="206.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#viewBookingHistory" prefHeight="27.0" prefWidth="188.0" text="View Booking History" />
+                              <Button mnemonicParsing="false" onAction="#viewBookingHistory" prefHeight="27.0" prefWidth="188.0" styleClass="greenButton" text="View Booking History">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" />
+                                 </VBox.margin></Button>
+                              <Button mnemonicParsing="false" onAction="#viewPendingBooking" prefHeight="27.0" prefWidth="188.0" styleClass="yellowButton" text="View Pending Booking">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#viewApprovedBooking" prefHeight="27.0" prefWidth="188.0" styleClass="greenButton" text="View Approved Booking">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label prefHeight="23.0" prefWidth="101.0" text="Booking Number">
+                                 <VBox.margin>
+                                    <Insets bottom="4.0" left="10.0" top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="bookingNumber" prefHeight="27.0" prefWidth="188.0" promptText="Booking Number">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <HBox prefHeight="32.0" prefWidth="176.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#cancelBooking" prefHeight="27.0" prefWidth="97.0" styleClass="redButton" text="Cancel">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#checkInBooking" prefHeight="27.0" prefWidth="95.0" styleClass="greenButton" text="Check-in">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </HBox>
+                              <Label fx:id="errorMessage" prefHeight="80.0" prefWidth="207.0" wrapText="true">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
                         </VBox>
                      </children>
@@ -291,20 +293,6 @@
             </Tab>
         </tabs>
       </TabPane>
-      <VBox layoutX="1158.0" layoutY="-2.0" prefHeight="712.0" prefWidth="70.0">
-         <children>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="35.0" prefWidth="70.0" text="Sign Out">
-               <effect>
-                  <Lighting>
-                     <bumpInput>
-                        <Shadow height="0.0" radius="0.0" width="0.0" />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant azimuth="310.71" color="#f20808" elevation="79.29" />
-                     </light>
-                  </Lighting>
-               </effect></Button>
-         </children>
-      </VBox>
+      <VBox layoutX="1128.0" layoutY="-2.0" prefHeight="712.0" prefWidth="100.0" />
    </children>
 </AnchorPane>

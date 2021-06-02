@@ -1,35 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="429.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.LoginController">
+<AnchorPane prefHeight="349.0" prefWidth="485.0" stylesheets="/main/ui/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.LoginController">
     <children>
             <Label fx:id="isConnected" layoutX="20.0" layoutY="6.0" text="Status">
 
             </Label>
-      <TextField fx:id="txtUsername" layoutX="128.0" layoutY="48.0" prefHeight="37.0" prefWidth="252.0" promptText="username" />
-      <PasswordField fx:id="txtPassword" layoutX="126.0" layoutY="104.0" prefHeight="37.0" prefWidth="252.0" promptText="password" />
-      <Button fx:id="loginButton" defaultButton="true" layoutX="163.0" layoutY="267.0" mnemonicParsing="false" onAction="#Login" prefHeight="55.0" prefWidth="182.0" text="Login" textAlignment="CENTER" wrapText="true">
-         <effect>
-            <Lighting bumpInput="$null" diffuseConstant="2.0">
-               <light>
-                  <Light.Distant color="#eeeeee" />
-               </light>
-            </Lighting>
-         </effect>
-         <font>
-            <Font name="System Bold" size="29.0" />
-         </font></Button>
-      <Label layoutX="26.0" layoutY="58.0" text="Username" />
-      <Label layoutX="28.0" layoutY="114.0" text="Password" />
-      <Label fx:id="loginStatus" layoutX="163.0" layoutY="241.0" prefHeight="17.0" prefWidth="178.0" textFill="#ee0404">
+      <TextField fx:id="txtUsername" layoutX="126.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="252.0" promptText="USERNAME" />
+      <PasswordField fx:id="txtPassword" layoutX="126.0" layoutY="104.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="252.0" promptText="PASSWORD" />
+      <Label fx:id="loginStatus" layoutX="126.0" layoutY="184.0" prefHeight="26.0" prefWidth="268.0" textFill="#ee0404">
          <font>
             <Font name="System Bold" size="20.0" />
-         </font></Label>
-      <Button fx:id="signupButton" defaultButton="true" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="55.0" prefWidth="178.0" text="Sign up" textAlignment="CENTER" wrapText="true">
+         </font>
+      </Label>
+      <Button fx:id="signupButton" defaultButton="true" layoutX="153.0" layoutY="284.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#SignUp" prefHeight="45.0" prefWidth="178.0" styleClass="signUpButton" text="SIGN UP" textAlignment="CENTER" wrapText="true">
          <effect>
             <Lighting bumpInput="$null" diffuseConstant="2.0">
                <light>
@@ -41,12 +30,25 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Button>
-      <Label layoutX="204.0" layoutY="335.0" text="Create an account" />
-      <Button fx:id="forgetPasswordButton" layoutX="126.0" layoutY="141.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="18.0" prefWidth="117.0" text="Forgot Password?">
+      <Button fx:id="loginButton" defaultButton="true" layoutX="153.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="182.0" styleClass="loginButton" text="LOG IN" textAlignment="CENTER" wrapText="true">
+         <effect>
+            <Lighting bumpInput="$null" diffuseConstant="2.0">
+               <light>
+                  <Light.Distant color="#eeeeee" />
+               </light>
+            </Lighting>
+         </effect>
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font></Button>
+      <Label layoutX="193.0" layoutY="267.0" text="Create an account" />
+      <Button fx:id="forgetPasswordButton" layoutX="126.0" layoutY="148.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="27.0" prefWidth="182.0" text="Forgot Password?">
          <effect>
             <Blend />
          </effect>
       </Button>
+      <Label layoutX="129.0" layoutY="16.0" text="USERNAME" />
+      <Label layoutX="128.0" layoutY="87.0" text="PASSWORD" />
 
 
     </children>
