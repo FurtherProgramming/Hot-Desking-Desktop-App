@@ -1,3 +1,12 @@
+.resetPwButton{
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-text-size: 8;
+    -fx-text-alignment: left;
+}
+.resetPwButton:hover{
+    -fx-text-fill: white;
+}
 
 .greenButton{
     -fx-background-color: #7aef7a;
@@ -68,8 +77,10 @@ AnchorPane{
 }
 .table-view .column-header {
     -fx-background-color: transparent;
+    -fx-alignment: center;
 }
 .table-view .table-cell{
+    -fx-alignment: center;
     -fx-border-color: transparent;
     -fx-padding: 2 0 2 10px;
 }

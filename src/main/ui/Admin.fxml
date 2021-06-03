@@ -300,7 +300,7 @@
                                 <columns>
                                   <TableColumn fx:id="bookingNumberColumn" prefWidth="112.0" text="Booking Number" />
                                   <TableColumn fx:id="employeeIDColumn" prefWidth="94.0" text="Employee ID" />
-                                    <TableColumn fx:id="timestampColumn" minWidth="0.0" prefWidth="210.0" text="Timestamp" />
+                                    <TableColumn fx:id="timestampColumn" minWidth="0.0" prefWidth="210.0" text="Booking Creation Date" />
                                     <TableColumn fx:id="bookingDateColumn" prefWidth="122.0" text="Booking Date" />
                                     <TableColumn fx:id="locationColumn" prefWidth="162.0" text="Location" />
                                     <TableColumn fx:id="bookingStatusColumn" prefWidth="136.0" text="Booking Status" />

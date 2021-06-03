@@ -25,6 +25,8 @@ public class LoginAppModel {
     private String pendingStatus = "Pending";
     private String rejectStatus = "Rejected";
     private String lockedStatus = "Locked";
+    private String cancelStatus = "Cancel";
+    private String checkinStatus = "Check-in";
 
     public LoginAppModel(){
 
@@ -43,8 +45,8 @@ public class LoginAppModel {
         }
     }
 
-
-    public Boolean isAdminLogin(String user, String pass) throws Exception {
+    //Check if user is admin or not from employee table
+    public Boolean isAdminLogin(String user, String pass){
         PreparedStatement preparedStatement = null;
         ResultSet resultSet=null;
         String query = "select * from employee where role = 'admin' and username = ? and password = ?";
@@ -57,24 +59,26 @@ public class LoginAppModel {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                preparedStatement.close();
+                resultSet.close();
                 return true;
             }
             else{
+                preparedStatement.close();
+                resultSet.close();
                 return false;
             }
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
+            e.printStackTrace();
             return false;
-        }finally {
-            preparedStatement.close();
-            resultSet.close();
         }
 
     }
 
-
-    public Boolean isEmployeeLogin(String user, String pass) throws Exception {
+    //Check if user is employee or not from employee table
+    public Boolean isEmployeeLogin(String user, String pass){
         PreparedStatement preparedStatement = null;
         ResultSet resultSet=null;
         String query = "select * from employee where role = 'employee' and username = ? and password = ?";
@@ -87,24 +91,26 @@ public class LoginAppModel {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                preparedStatement.close();
+                resultSet.close();
                 return true;
             }
             else{
+                preparedStatement.close();
+                resultSet.close();
                 return false;
             }
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
+            e.printStackTrace();
             return false;
-        }finally {
-            preparedStatement.close();
-            resultSet.close();
         }
 
     }
 
-
-    public Boolean isAddEmployee(String id, String firstname, String lastname, String username, String password, String secret_question, String answer_to_secret_question, String role) throws Exception{
+    //return true if an employee has been added to employee table successfully
+    public Boolean isAddEmployee(String id, String firstname, String lastname, String username, String password, String secret_question, String answer_to_secret_question, String role){
         String sqlInsert = "INSERT INTO Employee(id,firstname,lastname,username,password,secret_question,answer_to_secret_question,role) VALUES (?,?,?,?,?,?,?,?)";
         PreparedStatement st = null;
         ResultSet resultSet = null;
@@ -128,7 +134,7 @@ public class LoginAppModel {
     }
 
 
-    //return employee id from its username and password
+    //return employee id from given username and password
     public String getEmployeeID(String username, String password){
         String sql = "Select id from Employee where username = ? and password = ? ";
         PreparedStatement preparedStatement = null;
@@ -151,12 +157,147 @@ public class LoginAppModel {
         return result;
     }
 
-    //check if booking_date is a valid date (not a past date), true if booking date is equal or after today
+    //return firstname from its id
+    public String getFirstname(String id){
+        String sql = "Select firstname from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("firstname");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //return lastname from its id
+    public String getLastname(String id){
+        String sql = "Select lastname from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("lastname");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //return secret question from its id
+    public String getSecretQuestion(String id){
+        String sql = "Select secret_question from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("secret_question");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //return answer to secret question from its id
+    public String getAnswerSecretQuestion(String id){
+        String sql = "Select answer_to_secret_question from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("answer_to_secret_question");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //return username  from its id
+    public String getUsername(String id){
+        String sql = "Select username from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("username");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //return password from its id
+    public String getPassword(String id){
+        String sql = "Select password from Employee where id = ? ";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String result = "";
+        try{
+            preparedStatement = this.connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next() ){
+                result =  resultSet.getString("password");
+            }
+            preparedStatement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+
+
+    //check if booking_date is a valid date (not a past date), true if booking date is after today (no same day booking)
     public Boolean isValidDate(String booking_date){
         LocalDate todayDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate bookingDate = LocalDate.parse(booking_date,formatter);
-        if(bookingDate.isAfter(todayDate) || bookingDate.equals(todayDate)){
+        if(bookingDate.isAfter(todayDate)){
             return  true;
         }
         else {
@@ -164,7 +305,7 @@ public class LoginAppModel {
         }
     }
 
-    //insert new booking to booking table
+    //insert new booking to booking table, return true when insertion succeed
     public  Boolean isBooking(String booking_date, String desk_number, String username, String password){
         String sql = "INSERT INTO Booking VALUES(NULL, ?,datetime('now','localtime'),?,?,?)";
         PreparedStatement preparedStatement = null;
@@ -194,7 +335,7 @@ public class LoginAppModel {
         }
     }
 
-    //insert new booking to booking table
+    //insert a booking with lockdown status to booking table, return true when insertion succeed
     public  Boolean adminLockdownTables(String booking_date, String desk_number, String username, String password){
         String sql = "INSERT INTO Booking VALUES(NULL, ?,datetime('now','localtime'),?,?,?)";
         PreparedStatement preparedStatement = null;
@@ -230,16 +371,17 @@ public class LoginAppModel {
     }
 
     //check if booking exist or not for a given employee,
-    // if booking status is pending, return true,
+    // if booking status is pending or approved, return true,
     // user cant make new booking
     public  Boolean isBookingExistForEmployee( String username, String password ){
-        String sql = "Select * from Booking where booking_status = ? and employee_id = ? ";
+        String sql = "Select * from Booking where (booking_status = ? or booking_status = ?) and employee_id = ? ";
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, pendingStatus);
-            preparedStatement.setString(2, getEmployeeID(username, password));
+            preparedStatement.setString(2, approvedStatus);
+            preparedStatement.setString(3, getEmployeeID(username, password));
             resultSet  = preparedStatement.executeQuery();
             if( resultSet.next()){
                 preparedStatement.close();
@@ -285,26 +427,26 @@ public class LoginAppModel {
         }
     }
 
-
-
-
-
-
-    //check if the answer to the secret question is correct or not
+    //check if the answer to the secret question is correct or not, return true if it is correct
     public Boolean isResetPassword(String username, String answer){
         String query = "select * from employee where username = ? and answer_to_secret_question = ?";
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try{
             preparedStatement = this.connection.prepareStatement(query);
             preparedStatement.setString(1, username);
-            preparedStatement.setString(1, answer);
-            preparedStatement.execute();
+            preparedStatement.setString(2, answer);
+            resultSet = preparedStatement.executeQuery();
 
-            if(preparedStatement.execute() == false){
+            if(resultSet.next()){
+                preparedStatement.close();
+                resultSet.close();
+                return true;
+            }else {
+                preparedStatement.close();
+                resultSet.close();
                 return false;
             }
-            preparedStatement.close();
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -349,7 +491,7 @@ public class LoginAppModel {
         }
     }
 
-    //if booking status is pending or approved, return true
+    //return true if booking status is pending/approved/locked/check-in
     public Boolean displayAvailableTable(String bookingDate, String desk_number){
         String sql = "Select * from Booking where (booking_status = ? or booking_status = ? or  booking_status = ? or  booking_status = ? ) and booking_date = ? and desk_number = ? ";
         PreparedStatement preparedStatement = null;
@@ -384,6 +526,7 @@ public class LoginAppModel {
 
     }
 
+    //return employee table read only
     public ObservableList<EmployeeData> displayLoadEmployeeData(){
         String sql = "SELECT * from Employee";
         try{
@@ -405,7 +548,7 @@ public class LoginAppModel {
         return employeeData;
     }
 
-    //display Booking Table to Admin
+    //return booking table read only
     public ObservableList<BookingData> displayBookingData(){
         String sql = "SELECT * from Booking";
         try{
@@ -425,9 +568,9 @@ public class LoginAppModel {
         return bookingData;
     }
 
-    //display employee's Booking History
+    //return booking table to employee, read only
     public ObservableList<EmployeeBookingHistory> displayEmployeeBookingHistory(String employeeId){
-        String sql = "SELECT booking_number, booking_date, desk_number,booking_status from Booking where employee_id = ?";
+        String sql = "SELECT booking_number, timestamp, booking_date, desk_number,booking_status from Booking where employee_id = ?";
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try{
@@ -437,6 +580,7 @@ public class LoginAppModel {
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 this.employeeBookingHistory.add(new EmployeeBookingHistory(rs.getString("booking_number"),
+                        rs.getString("timestamp"),
                         rs.getString("booking_date"),
                         rs.getString("desk_number"),
                         rs.getString("booking_status")));
@@ -449,7 +593,7 @@ public class LoginAppModel {
 
     //display employee's pending Booking
     public ObservableList<EmployeeBookingHistory> displayEmployeePendingBooking(String employeeId){
-        String sql = "SELECT booking_number, booking_date, desk_number,booking_status from Booking where employee_id = ? and booking_status = ?";
+        String sql = "SELECT booking_number, timestamp , booking_date, desk_number,booking_status from Booking where employee_id = ? and booking_status = ?";
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try{
@@ -460,6 +604,7 @@ public class LoginAppModel {
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 this.employeeBookingHistory.add(new EmployeeBookingHistory(rs.getString("booking_number"),
+                        rs.getString("timestamp"),
                         rs.getString("booking_date"),
                         rs.getString("desk_number"),
                         rs.getString("booking_status")));
@@ -472,7 +617,7 @@ public class LoginAppModel {
 
     //display employee's Approved Booking
     public ObservableList<EmployeeBookingHistory> displayEmployeeApprovedBooking(String employeeId){
-        String sql = "SELECT booking_number, booking_date, desk_number,booking_status from Booking where employee_id = ? and booking_status = ?";
+        String sql = "SELECT booking_number, timestamp , desk_number,booking_status from Booking where employee_id = ? and booking_status = ?";
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try{
@@ -483,6 +628,7 @@ public class LoginAppModel {
             rs = preparedStatement.executeQuery();
             while(rs.next()){
                 this.employeeBookingHistory.add(new EmployeeBookingHistory(rs.getString("booking_number"),
+                        rs.getString("timestamp"),
                         rs.getString("booking_date"),
                         rs.getString("desk_number"),
                         rs.getString("booking_status")));
@@ -493,6 +639,7 @@ public class LoginAppModel {
         return employeeBookingHistory;
     }
 
+    //display all pending Booking to admin
     public ObservableList<BookingData> displayPendingBookingData(){
         String sql = "SELECT * from Booking WHERE booking_status = ? ";
         PreparedStatement preparedStatement = null;
@@ -515,116 +662,6 @@ public class LoginAppModel {
         }
         return bookingData;
     }
-
-    //pending booking in the last 12hrs
-    public ObservableList<BookingData> displayRecentPendingBookingData(){
-        String sql = "SELECT * from Booking WHERE booking_status = ? and timestamp >= datetime('now','localtime','-12 hours')";
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try{
-            this.bookingData = FXCollections.observableArrayList();
-            preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, pendingStatus);
-            rs = preparedStatement.executeQuery();
-            while(rs.next()){
-                this.bookingData.add(new BookingData(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6)));
-            }
-        } catch (SQLException e){
-            System.err.println("Error" + e);
-        }
-        return bookingData;
-    }
-
-
-
-
-    //return string array which contains bookingDate, deskNumber and bookingStatus for an employee
-//    public String[] displayCurrentBooking(String username, String password){
-//        String sql = "Select booking_date, desk_number, booking_status from Booking where employee_id = ? and (booking_status = ? or booking_status = ?) "
-//                    + "and booking_date = (Select MAX(booking_date) FROM Booking where employee_id = ? and (booking_status = ? or booking_status = ?) )";
-//        PreparedStatement preparedStatement = null;
-//        ResultSet resultSet = null;
-//        String[] result = new String[3];
-//        try{
-//            preparedStatement = this.connection.prepareStatement(sql);
-//            preparedStatement.setString(1, getEmployeeID(username,password));
-//            preparedStatement.setString(2, pendingStatus);
-//            preparedStatement.setString(3, approvedStatus);
-//            preparedStatement.setString(4, getEmployeeID(username,password));
-//            preparedStatement.setString(5, pendingStatus);
-//            preparedStatement.setString(6, approvedStatus);
-//            resultSet = preparedStatement.executeQuery();
-//            while(resultSet.next() ){
-//                result[0] =  resultSet.getString("booking_date");
-//                result[1] =  resultSet.getString("desk_number");
-//                result[2] =  resultSet.getString("booking_status");
-//            }
-//            preparedStatement.close();
-//            resultSet.close();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-
-    // if booking status is approved, return true, which means employee can check in
-    public  Boolean isBookingApproved(String employeeId){
-        String sql = "Select * from Booking where booking_status = ? and employee_id = ? and "
-                    + "booking_date = (Select MAX(booking_date) FROM Booking  where employee_id = ?)";
-        ResultSet resultSet = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, approvedStatus);
-            preparedStatement.setString(2, employeeId);
-            preparedStatement.setString(3, employeeId);
-            resultSet  = preparedStatement.executeQuery();
-            if( resultSet.next() ){
-                preparedStatement.close();
-                resultSet.close();
-                return true;
-            } else {
-                preparedStatement.close();
-                resultSet.close();
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public String[] currentAccountDetails(String username, String password){
-        String sql = "Select firstname, lastname, secret_question, answer_to_secret_question from Employee where id = ? ";
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String[] result = new String[6];
-        try{
-            preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setString(1, getEmployeeID(username,password));
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next() ){
-                result[0] =  resultSet.getString("firstname");
-                result[1] =  resultSet.getString("lastname");
-                result[2] =  resultSet.getString("secret_question");
-                result[3] =  resultSet.getString("answer_to_secret_question");
-            }
-            preparedStatement.close();
-            resultSet.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-
 
     //update new firstname to employee table
     public void updateFirstName(String id, String firstname){
@@ -738,6 +775,7 @@ public class LoginAppModel {
         }
     }
 
+    //return true if an ID exist in employee table
     public Boolean isIDexist(String id){
         String sql = "Select id from Employee where id = ?";
         ResultSet resultSet = null;
@@ -762,6 +800,7 @@ public class LoginAppModel {
 
     }
 
+    //Delete employee from employee table from its ID
     public void deleteEmployee(String id){
         String sql = "DELETE FROM Employee WHERE id = ?";
         PreparedStatement preparedStatement = null;
@@ -776,7 +815,7 @@ public class LoginAppModel {
 
     }
 
-    //check previous desk number
+    //return most recent previous desk number
     public String previousDesk(String username, String password){
         String result = "...";
         String sql = "Select desk_number from Booking where employee_id = ? and "
@@ -800,8 +839,6 @@ public class LoginAppModel {
         return result;
     }
 
-    private String cancelStatus = "Cancel";
-    private String checkinStatus = "Check-in";
 
     //cancel booking in Booking table by employee
     public Boolean cancelBooking(String bookingNumber){
@@ -910,41 +947,56 @@ public class LoginAppModel {
         return result;
     }
 
-    //approve booking status by admin
-    public void approveBooking(String bookingNumber){
-        String sqlInsert = "UPDATE Booking SET booking_status = ?"
-                + "WHERE booking_number = ?  ";
+    //approve booking status by admin (only able to approve pending booking)
+    public Boolean approveBooking(String bookingNumber){
+        String sqlUpdate = "UPDATE Booking SET booking_status = ?"
+                + "WHERE booking_number = ?  and booking_status = ?";
         PreparedStatement preparedStatement = null;
         try{
-            preparedStatement = this.connection.prepareStatement(sqlInsert);
+            preparedStatement = this.connection.prepareStatement(sqlUpdate);
             preparedStatement.setString(1, approvedStatus);
             preparedStatement.setString(2, bookingNumber);
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(3, pendingStatus);
+            int rowUpdated = preparedStatement.executeUpdate();
             preparedStatement.close();
+            if(rowUpdated > 0){
+                return true;
+            }else{
+                return false;
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
 
-    //reject booking status by admin
-    public void rejectBooking(String bookingNumber){
+    //reject booking status by admin (only able to reject pending booking)
+    public Boolean rejectBooking(String bookingNumber){
         String sqlUpdate = "UPDATE Booking SET booking_status = ?"
-                + "WHERE booking_number = ?  ";
+                + "WHERE booking_number = ?  and booking_status = ? ";
         PreparedStatement preparedStatement = null;
         try{
             preparedStatement = this.connection.prepareStatement(sqlUpdate);
             preparedStatement.setString(1, rejectStatus);
             preparedStatement.setString(2, bookingNumber);
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(3, pendingStatus);
+            int rowUpdated = preparedStatement.executeUpdate();
             preparedStatement.close();
+            if(rowUpdated > 0){
+                return true;
+            }else{
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     //export csv of employee table
-    public void exportEmployeeDatabase(){
+    public void exportEmployeeTable(){
         String sql = "Select * from Employee";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -979,7 +1031,7 @@ public class LoginAppModel {
     }
 
     //export csv of booking table
-    public void exportBookingDatabase(){
+    public void exportBookingTable(){
         String sql = "Select * from Booking";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -1050,9 +1102,8 @@ public class LoginAppModel {
         }
     }
 
-    //cancel booking in Booking table by admin when admin sign in
-    //for example, cancel booking if admin has not confirmed the Friday booking by Thursday midnight
-    public Boolean AutomaticCancelBookingByAdmin(){
+    //Automatic booking cancellation when not approved on time
+    public Boolean AutomaticCancelBooking(){
         String sqlUpdate = "UPDATE Booking SET booking_status = ?"
                 + "WHERE (booking_date <= date('now','localtime'))";
         PreparedStatement preparedStatement = null;

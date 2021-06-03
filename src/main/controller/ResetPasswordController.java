@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import main.SQLConnection;
 import main.model.LoginAppModel;
 
@@ -46,13 +47,27 @@ public class ResetPasswordController implements Initializable {
 
     @FXML
     public void ResetPassword(ActionEvent event){
-        if(loginModel.isResetPassword(username.getText(),answer.getText()) == true){
-            newPwLabel.setText("New Password");
-            generateRandomPassword();
-            updatePassword();
+        if(!username.getText().isEmpty()){
+            if(loginModel.isResetPassword(username.getText(),answer.getText()) == true){
+                newPwLabel.setTextFill(Color.BLACK);
+                newPwLabel.setText("New Password");
+                generateRandomPassword();
+                updatePassword();
+                clearTextField();
+            }else{
+                newPwLabel.setText("Answer to secret question is incorrect!");
+            }
         }else{
-            newPwLabel.setText("Answer to secret question is incorrect!");
+            newPassword.setText("");
+            newPwLabel.setTextFill(Color.RED);
+            newPwLabel.setText("Please enter your username.");
         }
+    }
+
+    public void clearTextField(){
+        username.setText("");
+        answer.setText("");
+        secretQuestionButton.setText("-Select-");
     }
 
     public void generateRandomPassword(){

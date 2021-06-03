@@ -5,8 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.model.LoginAppModel;
 
 public class Main extends Application {
+
+    public LoginAppModel loginModel = new LoginAppModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -15,6 +18,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(true);
         primaryStage.show();
+        loginModel.AutomaticCancelBooking();
     }
 
     public static void main(String[] args) {

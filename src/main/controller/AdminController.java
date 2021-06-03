@@ -2,7 +2,6 @@ package main.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
@@ -10,15 +9,18 @@ import javafx.scene.shape.Rectangle;
 import main.*;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
-
-import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ResourceBundle;
 
-public class AdminController implements Initializable {
+public class AdminController{
 
-    public LoginAppModel loginModel = new LoginAppModel();
+    private LoginAppModel loginModel = new LoginAppModel();
+    private ObservableList<EmployeeData> employeeData;
+    private ObservableList<BookingData> bookingData;
+    private UserHolder holder = UserHolder.getInstance();
+    private User user = holder.getUser();
+    private String usernameString = user.getUsername();
+    private String passwordString = user.getPassword();
 
     @FXML
     private TextField id;
@@ -36,14 +38,14 @@ public class AdminController implements Initializable {
     private TextField answer;
     @FXML
     private TextField role;
+
+
     @FXML
     private Label manageEmployeeMessage;
-
     @FXML
     private Label manageBookingMessage;
     @FXML
     private TextField bookingNumber;
-
     @FXML
     private TableView<EmployeeData> employeeDataTableView;
     @FXML
@@ -78,7 +80,6 @@ public class AdminController implements Initializable {
     private TableColumn<BookingData,String> bookingStatusColumn;
     @FXML
     private DatePicker date;
-
     @FXML
     private Button desk1A;
     @FXML
@@ -91,7 +92,6 @@ public class AdminController implements Initializable {
     private Button desk1E;
     @FXML
     private Button desk1F;
-
     @FXML
     private Rectangle square_1A;
     @FXML
@@ -104,93 +104,73 @@ public class AdminController implements Initializable {
     private Rectangle square_1E;
     @FXML
     private Rectangle square_1F;
+    @FXML
+    private Label bookingReportStatus;
+    @FXML
+    private TextField bookingDate;
+    @FXML
+    private Label reportStatus;
 
-
-    private SQLConnection dc;
-    private ObservableList<EmployeeData> employeeData;
-    private ObservableList<BookingData> bookingData;
-    private UserHolder holder = UserHolder.getInstance();
-    private User user = holder.getUser();
-    private String usernameString = user.getUsername();
-    private String passwordString = user.getPassword();
-
-
-
-    public void initialize (URL url, ResourceBundle rb){
-        this.dc = new SQLConnection();
-    }
-
+    //Display Employee Table action method
     @FXML
     private void loadEmployeeData(ActionEvent event){
         manageEmployeeMessage.setText("");
         this.employeeData = loginModel.displayLoadEmployeeData();
-        this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
-        this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
-        this.lastnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("lastName"));
-        this.usernameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("userName"));
-        this.passwordColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("password"));
-        this.secretQuestionColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("secretQuestion"));
-        this.answerColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("answer"));
-        this.roleColumn .setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("role"));
-        this.employeeDataTableView.setItems(null);
-        this.employeeDataTableView.setItems(this.employeeData);
+        updateEmployeeTable();
     }
 
+    //Display All Booking Table action method
     @FXML
     private void loadAllBookingData(ActionEvent event){
         manageBookingMessage.setText("");
         this.bookingData = loginModel.displayBookingData();
-        this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
-        this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
-        this.timestampColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("timestamp"));
-        this.bookingDateColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingDate"));
-        this.locationColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("deskNumber"));
-        this.bookingStatusColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingStatus"));
-        this.bookingDataTableView.setItems(null);
-        this.bookingDataTableView.setItems(this.bookingData);
+        updateBookingTable();
     }
 
+    //Display Pending bookings action method
     @FXML
     private void loadPendingBooking(ActionEvent event){
         manageBookingMessage.setText("");
         this.bookingData = loginModel.displayPendingBookingData();
-        this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
-        this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
-        this.timestampColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("timestamp"));
-        this.bookingDateColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingDate"));
-        this.locationColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("deskNumber"));
-        this.bookingStatusColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingStatus"));
-        this.bookingDataTableView.setItems(null);
-        this.bookingDataTableView.setItems(this.bookingData);
+        updateBookingTable();
     }
 
-
+    //Approve booking action method
     @FXML
     private void approveBooking(ActionEvent event){
-        loginModel.approveBooking(bookingNumber.getText());
-        manageBookingMessage.setText("Booking has been approved.");
-        bookingNumber.setText("");
+        if(loginModel.approveBooking(bookingNumber.getText()))
+        {manageBookingMessage.setText("Booking has been approved.");}
+        else{
+            manageBookingMessage.setTextFill(Color.RED);
+            manageBookingMessage.setText("Booking cannot be approved.");
+        }
+        clearBookingNumber();
     }
 
-
+    //Reject booking action method
     @FXML
     private void rejectBooking(ActionEvent event){
-        loginModel.rejectBooking(bookingNumber.getText());
-        manageBookingMessage.setText("Booking has been rejected.");
-        bookingNumber.setText("");
+        if(loginModel.rejectBooking(bookingNumber.getText()))
+        {manageBookingMessage.setText("Booking has been rejected.");}
+        else{
+            manageBookingMessage.setTextFill(Color.RED);
+            manageBookingMessage.setText("Booking cannot be rejected.");
+        }
+        clearBookingNumber();
     }
 
+    //Add new employee action method
     @FXML
-    private void addEmployee(ActionEvent event) throws Exception{
-            String id = this.id.getText();
-            String fname = this.firstname.getText();
-            String lname = this.lastname.getText();
-            String uname = this.username.getText();
-            String pass = this.password.getText();
-            String sq = this.secretQuestion.getText();
-            String asq = this.answer.getText();
-            String role = this.role.getText();
-            if(loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role)){
+    private void addEmployee(ActionEvent event){
+        String employeeId = id.getText();
+        String employeeFirstname = firstname.getText();
+        String employeeLastname = lastname.getText();
+        String employeeUsername = username.getText();
+        String employeePassword = password.getText();
+        String employeeSecretQ = secretQuestion.getText();
+        String employeeAnswer = answer.getText();
+        String employeeRole = role.getText();
+            if(loginModel.isAddEmployee(employeeId,employeeFirstname,employeeLastname,employeeUsername,employeePassword,employeeSecretQ,employeeAnswer,employeeRole)){
                 manageEmployeeMessage.setText("Employee has been added successfully! Refresh by clicking Load Data.");
             }
             else{
@@ -198,6 +178,7 @@ public class AdminController implements Initializable {
             }
     }
 
+    //clear Employee details Textfield action method
     @FXML
     private void clearForm(ActionEvent event){
         manageEmployeeMessage.setText("");
@@ -211,6 +192,7 @@ public class AdminController implements Initializable {
         this.role.setText("");
     }
 
+    //Update employee details action method based on which textfield is not empty
     @FXML
     private void updateEmployee(ActionEvent event){
         manageEmployeeMessage.setText("");
@@ -226,17 +208,23 @@ public class AdminController implements Initializable {
             if(loginModel.isIDexist(employeeId)){
                 if(!employeeFirstname.isEmpty()){
                     loginModel.updateFirstName(employeeId,employeeFirstname);
-                }if(!employeeLastname.isEmpty()){
+                }
+                if(!employeeLastname.isEmpty()){
                     loginModel.updateLastname(employeeId,employeeLastname);
-                }if(!employeeUsername.isEmpty()){
+                }
+                if(!employeeUsername.isEmpty()){
                     loginModel.updateUsername(employeeId,employeeUsername);
-                }if(!employeePassword.isEmpty()){
+                }
+                if(!employeePassword.isEmpty()){
                     loginModel.updatePasswordByID(employeeId,employeePassword);
-                }if(!employeeSecretQ.isEmpty()){
+                }
+                if(!employeeSecretQ.isEmpty()){
                     loginModel.updateSecretQuestion(employeeId,employeeSecretQ);
-                }if(!employeeAnswer.isEmpty()){
+                }
+                if(!employeeAnswer.isEmpty()){
                     loginModel.updateAnswer(employeeId,employeeAnswer);
-                }if(!employeeRole.isEmpty()){
+                }
+                if(!employeeRole.isEmpty()){
                     loginModel.updateRole(employeeId,employeeRole);
                 }
             }else{
@@ -247,8 +235,9 @@ public class AdminController implements Initializable {
         }
     }
 
+    //Delete employee action method
     @FXML
-    public void deleteEmployee(ActionEvent event){
+    private void deleteEmployee(ActionEvent event){
         manageEmployeeMessage.setText("");
         String employeeId = id.getText();
         if(!employeeId.isEmpty() && loginModel.isIDexist(employeeId)){
@@ -258,9 +247,10 @@ public class AdminController implements Initializable {
         }
     }
 
-    //admin can look at past date to see the visual representation of the booking
+    //visual representation of the booking
+    //admin can look at past date
     @FXML
-    public void chooseDate(ActionEvent event){
+    private void chooseDate(ActionEvent event){
             HashMap<Button, Rectangle> desks = new HashMap<Button,Rectangle>();
             desks.put(desk1A, square_1A);
             desks.put(desk1B, square_1B);
@@ -277,75 +267,117 @@ public class AdminController implements Initializable {
             }
     }
 
-
+    //Locking all seats action method
     @FXML
-    public void lockdownAll(){
+    private void lockdownAll(){
         String dateString = date.getValue().toString();
-        LinkedList<Button> deskButton = new LinkedList<Button>();
-        deskButton.add(desk1A);
-        deskButton.add(desk1B);
-        deskButton.add(desk1C);
-        deskButton.add(desk1D);
-        deskButton.add(desk1E);
-        deskButton.add(desk1F);
-        for(int i = 0; i < deskButton.size(); i++){
-            loginModel.adminLockdownTables(dateString,deskButton.get(i).getText(),usernameString,passwordString);
+        LinkedList<Button> deskLL = getDeskLL();
+        for(int i = 0; i < deskLL.size(); i++){
+            loginModel.adminLockdownTables(dateString,deskLL.get(i).getText(),usernameString,passwordString);
         }
     }
 
-
+    //Generate employee table csv report
     @FXML
-    private Label reportStatus;
-    @FXML
-    public void generateEmployeeReport(ActionEvent event){
-        loginModel.exportEmployeeDatabase();
+    private void generateEmployeeReport(ActionEvent event){
+        loginModel.exportEmployeeTable();
         reportStatus.setText("Report has been generated, please exit the application to see it.");
     }
 
-
+    //Generate booking table csv report
+    //if bookingDate textfield is not empty, then generate report for a given date
     @FXML
-    private Label bookingReportStatus;
-    @FXML
-    private TextField bookingDate;
-    @FXML
-    public void generateBookingReport(ActionEvent event){
-        //if bookingDate textfield is not empty, then generate report for a given date
+    private void generateBookingReport(ActionEvent event){
         if(!bookingDate.getText().isEmpty()){
             if(loginModel.exportBookingFromDate(bookingDate.getText())){
                 bookingReportStatus.setText("Report for that booking date has been generated, please exit the application to see it.");
-            }else{
+            }
+            else{
                 bookingReportStatus.setText("Make sure date is in correct format (yyyy-mm-dd)");
             }
         }else if(bookingDate.getText().isEmpty()){
-            loginModel.exportBookingDatabase();
+            loginModel.exportBookingTable();
             bookingReportStatus.setText("Report has been generated, please exit the application to see it.");
         }
     }
+
+    //Lock desk 1A action method
     @FXML
     private void lock1A(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1A.getText(),usernameString,passwordString);
     }
+
+    //Lock desk 1B action method
     @FXML
     private void lock1B(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1B.getText(),usernameString,passwordString);
     }
+
+    //Lock desk 1C action method
     @FXML
     private void lock1C(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1C.getText(),usernameString,passwordString);
     }
+
+    //Lock desk 1D action method
     @FXML
     private void lock1D(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1D.getText(),usernameString,passwordString);
     }
+
+    //Lock desk 1E action method
     @FXML
     private void lock1E(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1E.getText(),usernameString,passwordString);
     }
+
+    //Lock desk 1F action method
     @FXML
     private void lock1F(ActionEvent event){
         loginModel.adminLockdownTables(date.getValue().toString(),desk1F.getText(),usernameString,passwordString);
     }
 
+    //helper method to clear bookingNumber textfield
+    private void clearBookingNumber(){
+        bookingNumber.setText("");
+    }
 
+    //helper method to return list of all desks
+    private LinkedList<Button> getDeskLL(){
+        LinkedList<Button> deskLL = new LinkedList<Button>();
+        deskLL.add(desk1A);
+        deskLL.add(desk1B);
+        deskLL.add(desk1C);
+        deskLL.add(desk1D);
+        deskLL.add(desk1E);
+        deskLL.add(desk1F);
+        return  deskLL;
+    }
+
+    //helper method to update employee table
+    private void updateEmployeeTable(){
+        this.idColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("ID"));
+        this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("firstName"));
+        this.lastnameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("lastName"));
+        this.usernameColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("userName"));
+        this.passwordColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("password"));
+        this.secretQuestionColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("secretQuestion"));
+        this.answerColumn.setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("answer"));
+        this.roleColumn .setCellValueFactory(new PropertyValueFactory<EmployeeData,String>("role"));
+        this.employeeDataTableView.setItems(null);
+        this.employeeDataTableView.setItems(this.employeeData);
+    }
+
+    //helper method to update booking table
+    private void updateBookingTable(){
+        this.bookingNumberColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingNumber"));
+        this.employeeIDColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("employeeId"));
+        this.timestampColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("timestamp"));
+        this.bookingDateColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingDate"));
+        this.locationColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("deskNumber"));
+        this.bookingStatusColumn.setCellValueFactory(new PropertyValueFactory<BookingData, String>("bookingStatus"));
+        this.bookingDataTableView.setItems(null);
+        this.bookingDataTableView.setItems(this.bookingData);
+    }
 
 }

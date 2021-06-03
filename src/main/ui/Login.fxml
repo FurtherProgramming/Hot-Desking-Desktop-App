@@ -42,7 +42,7 @@
             <Font name="System Bold" size="29.0" />
          </font></Button>
       <Label layoutX="193.0" layoutY="267.0" text="Create an account" />
-      <Button fx:id="forgetPasswordButton" layoutX="126.0" layoutY="148.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="27.0" prefWidth="182.0" text="Forgot Password?">
+      <Button fx:id="forgetPasswordButton" layoutX="103.0" layoutY="143.0" mnemonicParsing="false" onAction="#ForgetPassword" prefHeight="27.0" prefWidth="150.0" styleClass="resetPwButton" text="Forgot Password?" underline="true">
          <effect>
             <Blend />
          </effect>

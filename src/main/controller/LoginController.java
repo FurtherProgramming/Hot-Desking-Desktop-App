@@ -54,21 +54,21 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void Login(ActionEvent event) {
-        try {
-            Stage stage = (Stage) this.loginButton.getScene().getWindow();
-            stage.close();
+
             if (loginModel.isAdminLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
-                loginModel.AutomaticCancelBookingByAdmin();
                 adminLogin();
+                Stage stage = (Stage) this.loginButton.getScene().getWindow();
+                stage.close();
             }
             if (loginModel.isEmployeeLogin(this.txtUsername.getText(), this.txtPassword.getText())) {
                 employeeLogin();
-            } else {
+                Stage stage = (Stage) this.loginButton.getScene().getWindow();
+                stage.close();
+            }
+            else {
                 this.loginStatus.setText("Wrong Credentials");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 

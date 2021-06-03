@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="138.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.BookingConfirmationController">
+<AnchorPane stylesheets="/main/ui/main.css" prefHeight="138.0" prefWidth="281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text layoutX="5.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="YOUR BOOKING HAS BEEN PLACED! PLEASE WAIT FOR A CONFIRMATION NOTIFICATION!" textAlignment="CENTER" wrappingWidth="387.58251953125">
          <font>
