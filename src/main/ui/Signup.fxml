@@ -8,10 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="578.0" prefWidth="506.0" stylesheets="/main/ui/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SignupController">
+<AnchorPane prefHeight="594.0" prefWidth="506.0" stylesheets="/main/ui/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SignupController">
    <children>
-      <Label layoutX="194.0" layoutY="492.0" text="Create an account" />
-      <Button defaultButton="true" layoutX="155.0" layoutY="509.0" mnemonicParsing="false" onAction="#Register" prefHeight="55.0" prefWidth="178.0" styleClass="signUpButton" text="Sign up" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="194.0" layoutY="516.0" text="Create an account" />
+      <Button defaultButton="true" layoutX="155.0" layoutY="533.0" mnemonicParsing="false" onAction="#Register" prefHeight="55.0" prefWidth="178.0" styleClass="signUpButton" text="Sign up" textAlignment="CENTER" wrapText="true">
          <effect>
             <Lighting bumpInput="$null" diffuseConstant="2.0">
                <light>
@@ -65,5 +65,6 @@
       <TextField fx:id="secretQuestion" layoutX="126.0" layoutY="358.0" prefHeight="37.0" prefWidth="252.0" promptText="Secret Question" />
       <PasswordField fx:id="password" layoutX="126.0" layoutY="289.0" prefHeight="37.0" prefWidth="252.0" promptText="Password" />
       <TextField fx:id="answer" layoutX="126.0" layoutY="423.0" prefHeight="37.0" prefWidth="252.0" promptText="Answer to Secret Question" />
+      <Label fx:id="errorMessage" layoutX="124.0" layoutY="460.0" prefHeight="55.0" prefWidth="252.0" wrapText="true" />
    </children>
 </AnchorPane>

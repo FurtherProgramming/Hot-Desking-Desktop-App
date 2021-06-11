@@ -124,9 +124,14 @@ public class LoginAppModel {
             st.setString(6, secret_question);
             st.setString(7, answer_to_secret_question);
             st.setString(8, role);
-            st.execute();
-            st.close();
-            return true;
+            int rowsUpdated = st.executeUpdate();
+            if( rowsUpdated > 0 ){
+             st.close();
+                return true;
+            } else {
+                st.close();
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -359,6 +364,33 @@ public class LoginAppModel {
             return false;
         }
     }
+
+    //Lock booking status by admin
+    public Boolean lockBooking(String bookingDate, String deskNumber){
+        String sqlUpdate = "UPDATE Booking SET booking_status = ?"
+                + "WHERE booking_date = ? and desk_number = ?";
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = this.connection.prepareStatement(sqlUpdate);
+            preparedStatement.setString(1, lockedStatus);
+            preparedStatement.setString(2, bookingDate);
+            preparedStatement.setString(3, deskNumber);
+            int rowUpdated = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            if(rowUpdated > 0){
+                return true;
+            }else{
+                return false;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 
     //check prevDesk before booking
     public boolean checkPrevDeskBeforeBooking(String desk, String username, String password){

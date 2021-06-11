@@ -2,6 +2,7 @@ package main.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import main.SQLConnection;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
@@ -26,6 +27,8 @@ public class SignupController implements Initializable{
     private TextField secretQuestion;
     @FXML
     private TextField answer;
+    @FXML
+    private Label errorMessage;
 
     private SQLConnection dc;
 
@@ -35,6 +38,9 @@ public class SignupController implements Initializable{
 
     public LoginAppModel loginModel = new LoginAppModel();
 
+    /*Register as new employee action method
+    By default, only employee role will be created
+    Admin can only be created by an existing admin*/
     @FXML
     private void Register(ActionEvent event) throws Exception{
         String id = this.id.getText();
@@ -45,12 +51,21 @@ public class SignupController implements Initializable{
         String sq = this.secretQuestion.getText();
         String asq = this.answer.getText();
         String role = "employee";
-        loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role);
+        if(id.isEmpty() || fname.isEmpty() || lname.isEmpty() || uname.isEmpty()
+                || pass.isEmpty() || sq.isEmpty() || asq.isEmpty()){
+            errorMessage.setTextFill(Color.RED);
+            errorMessage.setText("Please enter all the fields.");
+        }else{
+            if(loginModel.isAddEmployee(id,fname,lname,uname,pass,sq,asq,role)){
+                errorMessage.setTextFill(Color.GREEN);
+                errorMessage.setText("You have been added. \nPlease exit and login to use the app.");
+            }
+            else{
+                errorMessage.setTextFill(Color.RED);
+                errorMessage.setText("Please enter a valid employee ID.");
+            }
+        }
+
     }
-
-
-
-    // Create EXIT BUTTON so user start again from opening the app, then use their just registered username to login
-
 
 }

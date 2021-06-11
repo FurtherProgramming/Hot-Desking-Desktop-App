@@ -242,6 +242,7 @@ public class AdminController{
         String employeeId = id.getText();
         if(!employeeId.isEmpty() && loginModel.isIDexist(employeeId)){
             loginModel.deleteEmployee(employeeId);
+            manageEmployeeMessage.setText("Employee has been deleted. Please load data to refresh.");
         }else{
             manageEmployeeMessage.setText("Make sure you enter the right employee ID");
         }
@@ -273,7 +274,11 @@ public class AdminController{
         String dateString = date.getValue().toString();
         LinkedList<Button> deskLL = getDeskLL();
         for(int i = 0; i < deskLL.size(); i++){
-            loginModel.adminLockdownTables(dateString,deskLL.get(i).getText(),usernameString,passwordString);
+            if(loginModel.isBookingExist(dateString,deskLL.get(i).getText())){
+                loginModel.lockBooking(dateString,deskLL.get(i).getText());
+            }
+                loginModel.adminLockdownTables(dateString,deskLL.get(i).getText(),usernameString,passwordString);
+
         }
     }
 

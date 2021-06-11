@@ -71,9 +71,7 @@ public class LoginController implements Initializable {
 
     }
 
-
-
-
+    //Open employee dashboard
     public void employeeLogin(){
         try {
             User user = new User(this.txtUsername.getText(), this.txtPassword.getText());
@@ -93,6 +91,7 @@ public class LoginController implements Initializable {
         }
     }
 
+    //Open admin dashboard
     public void adminLogin(){
         try {
             User user = new User(this.txtUsername.getText(), this.txtPassword.getText());

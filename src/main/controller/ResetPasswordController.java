@@ -39,12 +39,13 @@ public class ResetPasswordController implements Initializable {
     @FXML
     private Button secretQuestionButton;
 
-
+    //Display secret question action method
     @FXML
     public void displaySecretQuestion(ActionEvent event){
         secretQuestionButton.setText(loginModel.showSecretQuestion(username.getText()));
     }
 
+    //Reset password action method
     @FXML
     public void ResetPassword(ActionEvent event){
         if(!username.getText().isEmpty()){
@@ -70,6 +71,7 @@ public class ResetPasswordController implements Initializable {
         secretQuestionButton.setText("-Select-");
     }
 
+    //Method to generate random password which is a string with length of 10
     public void generateRandomPassword(){
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
@@ -82,6 +84,7 @@ public class ResetPasswordController implements Initializable {
         newPassword.setText(newRandomPassword);
     }
 
+    //Update password helper method
     public void updatePassword(){
         loginModel.updatePassword(username.getText(), newPassword.getText());
     }
