@@ -5,7 +5,7 @@ Student ID: 3409664**
 
 This project is about a Desktop Hotdesk Booking System. \
 An employee can book a desk and will require an admin to approve the booking for a successful booking.\
-More explanation regarding the allowable booking can be found in the folder assignment specification.
+More explanation regarding the allowable booking can be found in the folder Assignment Specification.
 
 # Installation
 Download this project and run the main class.\
@@ -17,6 +17,7 @@ Packaging for classes are as below:
  - main.controller
  - main.model
  - main.ui
+ - main.utility
 
 ### References 
 - **Java Code example to export from database to csv file.**  https://www.codejava.net/coding/java-code-example-to-export-from-database-to-csv-file
