@@ -19,6 +19,9 @@ Packaging for classes are as below:
  - main.ui
  - main.utility
 
+# Design
+The main design pattern used in this project is Model, View and Controller design pattern.
+
 ### References 
 - **Java Code example to export from database to csv file.**  https://www.codejava.net/coding/java-code-example-to-export-from-database-to-csv-file
 - **How to style a TableView in JavaFX.** https://edencoding.com/style-tableview-javafx/
