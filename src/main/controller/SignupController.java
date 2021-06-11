@@ -3,7 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import main.SQLConnection;
+import main.utility.SQLConnection;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
 

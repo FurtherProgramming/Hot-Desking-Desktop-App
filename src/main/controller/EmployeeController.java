@@ -11,8 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import main.*;
 import main.model.LoginAppModel;
+import main.utility.EmployeeBookingHistory;
+import main.utility.User;
+import main.utility.UserHolder;
+
 import java.util.HashMap;
 
 public class EmployeeController{

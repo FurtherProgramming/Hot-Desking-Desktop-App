@@ -13,8 +13,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-import main.User;
-import main.UserHolder;
+import main.utility.User;
+import main.utility.UserHolder;
 import main.model.LoginAppModel;
 
 

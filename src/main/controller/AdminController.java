@@ -6,9 +6,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.*;
 import javafx.event.ActionEvent;
 import main.model.LoginAppModel;
+import main.utility.BookingData;
+import main.utility.EmployeeData;
+import main.utility.User;
+import main.utility.UserHolder;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -208,24 +212,31 @@ public class AdminController{
             if(loginModel.isIDexist(employeeId)){
                 if(!employeeFirstname.isEmpty()){
                     loginModel.updateFirstName(employeeId,employeeFirstname);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeeLastname.isEmpty()){
                     loginModel.updateLastname(employeeId,employeeLastname);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeeUsername.isEmpty()){
                     loginModel.updateUsername(employeeId,employeeUsername);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeePassword.isEmpty()){
                     loginModel.updatePasswordByID(employeeId,employeePassword);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeeSecretQ.isEmpty()){
                     loginModel.updateSecretQuestion(employeeId,employeeSecretQ);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeeAnswer.isEmpty()){
                     loginModel.updateAnswer(employeeId,employeeAnswer);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
                 if(!employeeRole.isEmpty()){
                     loginModel.updateRole(employeeId,employeeRole);
+                    manageEmployeeMessage.setText("Updated successfully, please load data to see changes");
                 }
             }else{
                 manageEmployeeMessage.setText("Make sure you enter the right employee ID");

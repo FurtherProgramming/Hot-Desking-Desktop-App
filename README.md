@@ -7,7 +7,7 @@ This project is about a Desktop Hotdesk Booking System. \
 An employee can book a desk and will require an admin to approve the booking for a successful booking.\
 More explanation regarding the allowable booking can be found in the folder assignment specification.
 
-#Installation
+# Installation
 Download this project and run the main class.\
 This project is using Java JDK 1.8 , make sure to have this installed prior to running the main class.
 

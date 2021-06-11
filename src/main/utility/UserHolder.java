@@ -1,4 +1,4 @@
-package main;
+package main.utility;
 
 public final class UserHolder {
 

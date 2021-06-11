@@ -2,10 +2,10 @@ package main.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.BookingData;
-import main.EmployeeBookingHistory;
-import main.EmployeeData;
-import main.SQLConnection;
+import main.utility.BookingData;
+import main.utility.EmployeeBookingHistory;
+import main.utility.EmployeeData;
+import main.utility.SQLConnection;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

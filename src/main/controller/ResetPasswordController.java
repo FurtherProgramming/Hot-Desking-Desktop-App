@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import main.SQLConnection;
+import main.utility.SQLConnection;
 import main.model.LoginAppModel;
 
 import java.net.URL;
